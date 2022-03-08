@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "*.c": "c",
+        "*.h": "c",
+        "cstdarg": "c",
+        "cstdio": "c",
+        "cstdint": "c",
+        "clibrary.h": "c",
+        "stm32f10x_adc.h": "c",
+        "display.h": "c",
+        "test.h": "c",
+        "RTC.C": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Enabled"
+}

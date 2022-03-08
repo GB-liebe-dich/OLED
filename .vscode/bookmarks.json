@@ -1,0 +1,29 @@
+{
+	"files": [
+		{
+			"path": "USER/gui.c",
+			"bookmarks": [
+				{
+					"line": 497,
+					"column": 8,
+					"label": ""
+				},
+				{
+					"line": 800,
+					"column": 12,
+					"label": ""
+				}
+			]
+		},
+		{
+			"path": "USER/test.c",
+			"bookmarks": [
+				{
+					"line": 265,
+					"column": 19,
+					"label": ""
+				}
+			]
+		}
+	]
+}
