@@ -26,8 +26,10 @@
  * @note  
 **/
 typedef enum _interface {
-    main_interface = 0, /* 主界面 */
-    WiFi_Set_interface  /* WiFi设置界面 */
+    main_interface = 0, //主界面
+    menu_interface,     //菜单界面
+    WiFiSet_interface,  //WiFi设置界面
+    Update_interface    //更新参数界面
 } INTERFACE;
 
 /**
@@ -36,7 +38,7 @@ typedef enum _interface {
 **/
 typedef struct _display {
     INTERFACE Now_interface;    /* 当前显示界面 */
-    uint8 Interface_State;  /*当前界面状态，0xAA：界面已初始化完成，其他：界面未初始化 */
+    uint8 Interface_State;      /*当前界面状态，0xAA：界面已初始化完成，其他：界面未初始化 */
 } DISPLAY;
 
 /**

@@ -21,28 +21,25 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.7.0
 Dialog DLL:      TCM.DLL V1.36.5.0
  
 <h2>Project:</h2>
-E:\Design\STM32\OLED\参考例程\0.96inch_OLED_Demo_STM32F103RCT6_Software_4-wire_SPI\PROJECT\OLED.uvprojx
-Project File Date:  03/05/2022
+E:\Design\STM32\OLED\0.96inch_OLED_Demo_STM32F103RCT6_Software_4-wire_SPI\PROJECT\OLED.uvprojx
+Project File Date:  03/09/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Program Files\Keil_v5\ARM\ARMCC\Bin'
 Build target 'QD-OLED'
-compiling ESP8266.c...
-..\HARDWARE\ESP8266\ESP8266.c(106): warning:  #167-D: argument of type "uint8 *" is incompatible with parameter of type "char *restrict"
-      AT_SETWIFI(t_SetWifi); // wifi参数
-..\HARDWARE\ESP8266\ESP8266.c(154): warning:  #167-D: argument of type "uint8 *" is incompatible with parameter of type "const char *"
-              if (!strstr(g_USART3_RxData.USART_RX_BUF, (uint8 *)"1970")) // 1970表示未校时成功
-..\HARDWARE\ESP8266\ESP8266.c(154): warning:  #167-D: argument of type "uint8 *" is incompatible with parameter of type "const char *"
-              if (!strstr(g_USART3_RxData.USART_RX_BUF, (uint8 *)"1970")) // 1970表示未校时成功
-..\HARDWARE\ESP8266\ESP8266.c(209): warning:  #167-D: argument of type "uint8 *" is incompatible with parameter of type "char *restrict"
-      AT_SETTCP(t_SetTcp); // TCP参数
-..\HARDWARE\ESP8266\ESP8266.c(205): warning:  #177-D: variable "tweather"  was declared but never referenced
-      uint8 tweather[10];
-..\HARDWARE\ESP8266\ESP8266.c: 5 warnings, 0 errors
+compiling USART3.c...
+..\HARDWARE\USART\USART3.c(167): warning:  #167-D: argument of type "uint8 *" is incompatible with parameter of type "const char *"
+      tDataLen = strlen(pAimStr);
+..\HARDWARE\USART\USART3.c(194): warning:  #167-D: argument of type "uint8 *" is incompatible with parameter of type "const char *"
+          if(strstr(pSrcStr,pAimStr))
+..\HARDWARE\USART\USART3.c(194): warning:  #167-D: argument of type "uint8 *" is incompatible with parameter of type "const char *"
+          if(strstr(pSrcStr,pAimStr))
+..\HARDWARE\USART\USART3.c: 3 warnings, 0 errors
+compiling main.c...
 linking...
-Program Size: Code=22436 RO-data=5688 RW-data=5444 ZI-data=3468  
+Program Size: Code=22444 RO-data=5688 RW-data=5436 ZI-data=3468  
 FromELF: creating hex file...
-"..\OBJ\TEST_OLED.axf" - 0 Error(s), 5 Warning(s).
+"..\OBJ\TEST_OLED.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -65,7 +62,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.3.0
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

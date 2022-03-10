@@ -114,8 +114,8 @@ void USART3_Init(uint32 bound)
     
     /* 初始化 NVIC */
     NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=2; //抢占优先级2
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;      //子优先级2
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1; //抢占优先级2
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;      //子优先级2
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;         //IRQ通道使能
     NVIC_Init(&NVIC_InitStructure);                         //中断优先级初始化
 

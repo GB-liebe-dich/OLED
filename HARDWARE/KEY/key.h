@@ -12,8 +12,9 @@
 //全局变量
 
 
-void KEY_IO_Init(void);     //按键初始化
-uint8 KEY_SCAN(void);
-uint8 EC11_scan(void);
+extern void KEY_IO_Init(void);     //按键初始化
+extern uint8 KEY_SCAN(void);
+extern uint8 EC11_scan(void);
+extern uint8 LongKey_Scan(void);    //长按键检测
 
 #endif

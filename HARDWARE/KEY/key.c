@@ -55,3 +55,35 @@ uint8 EC11_scan(void)
     }
     return ScanResult;
 }
+
+/**
+ * @brief   ³¤°´¼ü¼ì²â
+ * @param   [In]
+ * @param   [Out]
+ * @return  
+ * @version 1.0.0
+ * @date    2022-03-10
+ * @note    
+**/
+uint8 LongKey_Scan(void)
+{
+    static uint8 LongKey_Time = 0;
+
+    if(KEY_SCAN())
+    {
+        LongKey_Time++;
+    }
+    else
+    {
+        LongKey_Time = 0;
+    }
+
+    if(LongKey_Time >= 3)
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+

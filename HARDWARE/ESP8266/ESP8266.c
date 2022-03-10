@@ -251,6 +251,7 @@ uint8 ESP8266_Weather(void)
     {
         return 1;
     }
+    delay_ms(500);
 
     return 0;
 }

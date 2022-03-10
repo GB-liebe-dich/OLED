@@ -16,9 +16,6 @@
 u8 delayi;
 u8 t = 0;
 u8 t1 = 0;
-uint8 key_cnt = 0;
-uint8 key_cnt_char[3] = {0};
-uint8 test_cnt_char[3] = {0};
 
 int main(void)
 {
@@ -29,12 +26,12 @@ int main(void)
     RTC_Init();                                     // RTC初始化
     DHT11_Init();
     KEY_IO_Init();
-    USART3_Init(115200);                            //初始化串口3
+    USART3_Init(115200); //初始化串口3
     EXTIX_Init();
     OLED_Clear(0); //清屏（全黑）
 
     /* 开机任务 */
-    // Dis_PowerOn();  //开机动画
+    Dis_PowerOn(); //开机动画
     OLED_Clear(0);
     DHT11_Read_Data(&temperature, &humidity);
     Dis_MainInterface(); //显示主界面，等待wifi连接
@@ -55,9 +52,18 @@ int main(void)
 
     while (1)
     {
+        LongKey_Scan();
+
+
+        if (t % 30 == 0)
+        {
+            DHT11_Read_Data(&temperature, &humidity);
+        }
+
         if (t1 != calendar.sec) //秒事件
         {
             t1 = calendar.sec;
+
             if (g_8266State.Timing != 0xAA) //校时
             {
                 if (SUCCESS == ESP8266_GetTime())
@@ -65,34 +71,34 @@ int main(void)
                     g_8266State.Timing = 0xAA;
                 }
             }
-            Dis_MainInterface();
+
+            //========= 显示处理 =========//
+            /* 初始化界面数组 */
+            switch (g_Display.Now_interface)
+            {
+            case main_interface:
+                Dis_MainInterface();
+                break;
+            case menu_interface:
+                break;
+            case WiFiSet_interface:
+                Dis_Wificonfig();
+                break;
+            case Update_interface:
+                break;
+            default:
+                break;
+            }
+            /* 更新显示 */
+            OLED_Display();
         }
-        if (t % 30 == 0)
+        if (KEY_SCAN())
         {
-            DHT11_Read_Data(&temperature, &humidity);
+            g_Display.Interface_State = 0;
         }
 
         delay_ms(100);
         t++;
-        /*
-        if(t%20==0)
-        {
-            DHT11_Read_Data(&temperature,&humidity);	//读取温湿度值
-            DecToChar(temperature, wendu);
-            DecToChar(humidity, shidu);
-            GUI_ShowString(40,16,wendu,16,1);
-            GUI_ShowString(40,32,shidu,16,1);
-            GUI_ShowCHinese(56,16,16,"℃",1);
-            GUI_ShowCHinese(56,32,16,"％",1);
-        }
-        if(KEY_SCAN())	key_cnt++;
-        if(key_cnt >= 10)	key_cnt = 0;
-        DecToChar(key_cnt, key_cnt_char);
-        GUI_ShowString(80,16,key_cnt_char,16,0);
-
-        DecToChar(test_cnt, test_cnt_char);
-        GUI_ShowString(80,32,test_cnt_char,16,0);
-        */
 
         // if (t % 1 == 0)
         // {

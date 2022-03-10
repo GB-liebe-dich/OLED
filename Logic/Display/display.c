@@ -69,9 +69,15 @@ void Dis_MainInterface(void)
     u8 fen[3] = {0};
     u8 miao[3] = {0};
 
-    /* 清屏 */
-    // OLED_Clear(0);
-
+    //========= 界面初始化 =========//
+    if (g_Display.Interface_State != 0xAA)
+    {
+        g_Display.Interface_State = 0xAA;
+        /* 清屏 */
+        OLED_Clear(0);
+    }
+    
+    //========= 界面显示 =========//
     /* 显示图片 */
     main_bmp();
 
@@ -88,28 +94,12 @@ void Dis_MainInterface(void)
 
     /* 时间 */
     Dis_time();
-    /*
-    DecToChar(calendar.hour, 2, shi);
-    DecToChar(calendar.min, 2, fen);
-    DecToChar(calendar.sec, 2, miao);
-
-    // GUI_ShowString(39, 16, ":", 18, 1);
-    // GUI_ShowString(77, 16, ":", 18, 1);
-    GUI_ShowString(0, 16, shi, 16, 1);
-    GUI_ShowString(38, 16, fen, 16, 1);
-    GUI_ShowString(50, 40, miao, 16, 1);
-    */
 
     /* 菜单 */
     DecToChar(temperature, 2, wendu);
     DecToChar(humidity, 2, shidu);
     GUI_ShowString(105, 18, wendu, 8, 1);
     GUI_ShowString(105, 31, shidu, 8, 1);
-    // GUI_ShowCHinese(36, 36, 16, "℃", 1);
-    // GUI_ShowString(96, 36, "%", 16, 1);
-
-    /* 更新显示 */
-    OLED_Display();
 }
 
 /**
