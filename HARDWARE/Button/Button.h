@@ -1,51 +1,64 @@
-/* #ifndef __KEY_H
-#define __KEY_H
-
-#include "sys.h"
-#include "Clibrary.h"
-
-//按键
-#define KEY1    PBin(0)
-#define EC11_B  PAin(0)
-#define EC11_A  PAin(1)
-
-//全局变量
-
-
-extern void KEY_IO_Init(void);     //按键初始化
-extern uint8 KEY_SCAN(void);
-extern uint8 EC11_scan(void);
-extern uint8 LongKey_Scan(void);    //长按键检测
-
-#endif */
-
 /*******************************************************************************
  * Copyright (C), 2022, 羽落叶秋
- * @file    key.h
+ * @file    Button.h
  * @brief   
  * @details 
  * @author  羽落叶秋
  * @version 1.0.0
- * @date    2022年04月13日
+ * @date    2022年04月14日
  * @History:
- *      1. Date: 2022-04-13
+ *      1. Date: 2022-04-14
  *         Author: 羽落叶秋
  *         Modification: 新建
  ******************************************************************************/
-#ifndef __KEY_H
-#define __KEY_H
+#ifndef __BUTTON_H
+#define __BUTTON_H
 
 /*================================ 头文件包含 =================================*/
 #include "Clibrary.h"
 
 /*=============================== 宏定义/重定义 ===============================*/
+#define //扫描间隔
 
+/*========================== 枚举体/联合体/结构体定义 ==========================*/
+/**
+ * @brief 按键声明
+ * @note  添加或删除按键在这里声明
+**/
+typedef enum {
+    USER_BUTTON_0 = 0, //按键1
+    // USER_BUTTON_1,     //按键2
+    // USER_BUTTON_2,     //按键3
+    // USER_BUTTON_3,     //按键4
+    USER_BUTTON_MAX
+} ;
 
-/*============================= 结构体/联合体定义 =============================*/
+/**
+ * @brief 按键动作枚举体
+ * @note  
+**/
+typedef enum {
+    PRESS = 0,  //按下
+    //弹起
+    //单机
+    //双击
+    //长按
+} BUTTON_ACTION;
+
+/**
+ * @brief 按键功能结构体
+ * @note  {attribute：属性；}
+**/
+typedef struct _button_attribute {
+    BUTTON_ACTION   key_state;  //按键状态
+    //消抖时长
+    //连击间隔
+    //长按时长
+} BUTTON_ATTRIBUTE;
 
 
 /*================================= 全局变量 =================================*/
-
+extern BUTTON_ATTRIBUTE user_button[USER_BUTTON_MAX];
 
 /*================================= 私有函数 =================================*/
 
@@ -55,4 +68,3 @@ extern uint8 LongKey_Scan(void);    //长按键检测
 
 #endif
 /*================================= 文件结尾 =================================*/
-
