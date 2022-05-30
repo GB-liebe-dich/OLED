@@ -79,6 +79,7 @@ typedef enum
  **/
 typedef struct _button_attribute
 {
+    uint8 (*Button_read)(void *); //读按键引脚电平
     BUTTON_ACTION Button_state;   //按键状态
     BUTTON_EVENT Button_event;    //按键事件
     uint16 Debounce_Time;         //消抖时长
@@ -88,7 +89,7 @@ typedef struct _button_attribute
     uint8 click_cnt;              //记录单击次数，用于判定单击、连击
     uint8 ID;                     //按键编号
     uint8 Pressed_Logic_Level;    //按键按下的逻辑电平。1：标识按键按下的时候为高电平；0：标识按键按下的时候未低电平
-    uint8 (*Button_read)(void *); //读按键引脚电平
+    uint8 EN_EXTI;                //外部中断使能位，0xAA为使能外部中断，其他值为失能
 } BUTTON_ATTRIBUTE;
 
 /*================================= 全局变量 =================================*/

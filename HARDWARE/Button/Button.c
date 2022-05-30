@@ -70,6 +70,7 @@ void UserButtonInit(void)
     {
         //========= 初始化默认参数 =========//
         user_button[i].ID = i;                                    //初始化按键编号
+        user_button[i].Button_read = GetButtonValue;              //初始化按键状态
         user_button[i].Button_state = BOUNCE;                     //初始化按键状态，弹起
         user_button[i].Button_event = DEFAULT;                    //初始化按键事件，空
         user_button[i].Debounce_Time = SHAKE_TIME;                //初始化消抖时间
@@ -78,13 +79,12 @@ void UserButtonInit(void)
         user_button[i].Pressed_Logic_Level = DEFAULT_LOGIC_LEVEL; //初始化逻辑电平
         user_button[i].scan_cnt = 0;                              //初始化扫描次数
         user_button[i].click_cnt = 0;                             //初始化单击次数
-        user_button[i].Button_read = GetButtonValue;              //初始化按键状态
 
         //========= 初始化非默认参数 =========//
-        // if (i == USER_BUTTON_3)
-        // {
-        //     user_button[USER_BUTTON_3].pressed_logic_level = 1;
-        // }
+        if (i == USER_BUTTON_2)
+        {
+            user_button[i].EN_EXTI = 0xAA;
+        }
     }
 }
 
