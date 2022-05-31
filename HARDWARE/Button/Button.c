@@ -79,11 +79,12 @@ void UserButtonInit(void)
         user_button[i].Pressed_Logic_Level = DEFAULT_LOGIC_LEVEL; //初始化逻辑电平
         user_button[i].scan_cnt = 0;                              //初始化扫描次数
         user_button[i].click_cnt = 0;                             //初始化单击次数
+        user_button[i].EN_EXTI = 0;                               //默认关闭外部中断使能
 
         //========= 初始化非默认参数 =========//
         if (i == USER_BUTTON_2)
         {
-            user_button[i].EN_EXTI = 0xAA;
+            user_button[i].EN_EXTI = 0xAA;  //开启 按键2 外部中断
         }
     }
 }
@@ -104,7 +105,7 @@ void ButtonInit(void)
     EXTI_InitTypeDef EXTI_InitStructure;
     NVIC_InitTypeDef NVIC_InitStructure;
 
-    //========= GPIO配置 =========//
+    //========= 普通GPIO配置 =========//
     /* 使能对应端口时钟 */
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE); //使能PA,PB端口时钟
 
@@ -132,9 +133,9 @@ void ButtonInit(void)
     EXTI_InitStructure.EXTI_LineCmd = ENABLE;                   //使能中断线
     EXTI_Init(&EXTI_InitStructure);
 
-    GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource0); // PB.0
-    EXTI_InitStructure.EXTI_Line = EXTI_Line0;                  //配置中断线1
-    EXTI_Init(&EXTI_InitStructure);
+    // GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource0); // PB.0
+    // EXTI_InitStructure.EXTI_Line = EXTI_Line0;                  //配置中断线1
+    // EXTI_Init(&EXTI_InitStructure);
 
     //========= NVIC配置 =========//
     NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn;             //使能PA.1所在的外部中断通道
@@ -143,8 +144,8 @@ void ButtonInit(void)
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;              //使能外部中断通道
     NVIC_Init(&NVIC_InitStructure);
 
-    NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn; //使能PB.0所在的外部中断通道
-    NVIC_Init(&NVIC_InitStructure);
+    // NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;             //使能PB.0所在的外部中断通道
+    // NVIC_Init(&NVIC_InitStructure);
 #endif
 
     //========= 其他配置 =========//
@@ -169,7 +170,8 @@ uint32 GetButtonEvent(void)
     /* 一次性读取全部按键状态，存在button_data中，每1位代表一个按键状态，按键1在最低位 */
     for (i = 0; i < USER_BUTTON_MAX; i++)
     {
-        button_data |= (((user_button[i].Button_read)(&user_button[i]) ^ user_button[i].Pressed_Logic_Level) << i);
+        button_data |= (((user_button[i].Button_read)(&user_button[i])
+                          ^ user_button[i].Pressed_Logic_Level) << i);  //获取按键状态
     }
 
     /* 获取按键事件 */
@@ -297,23 +299,23 @@ void HandleButtonEvent(void)
 }
 
 #ifdef BUTTON_INTERRUPT
-/**
- * @brief   EXTI0中断服务函数，对应PB0，KEY
- * @param   [In]
- * @param   [Out]
- * @return
- * @version 1.0.0
- * @date    2022-05-03
- * @note
- **/
-void EXTI0_IRQHandler(void)
-{
-    if (EXTI_GetITStatus(EXTI_Line0) != RESET) //判断某个线上的中断是否发生
-    {
+// /**
+//  * @brief   EXTI0中断服务函数，对应PB0，KEY
+//  * @param   [In]
+//  * @param   [Out]
+//  * @return
+//  * @version 1.0.0
+//  * @date    2022-05-03
+//  * @note
+//  **/
+// void EXTI0_IRQHandler(void)
+// {
+//     if (EXTI_GetITStatus(EXTI_Line0) != RESET) //判断某个线上的中断是否发生
+//     {
 
-        EXTI_ClearITPendingBit(EXTI_Line0); //清除LINE0上的中断标志位
-    }
-}
+//         EXTI_ClearITPendingBit(EXTI_Line0); //清除LINE0上的中断标志位
+//     }
+// }
 
 /**
  * @brief   EXTI1中断服务函数，对应PA1，EC11_A
@@ -328,7 +330,8 @@ void EXTI1_IRQHandler(void)
 {
     if (EXTI_GetITStatus(EXTI_Line1) != RESET) //判断某个线上的中断是否发生
     {
-
+        //置中断按键按下标志
+        //清按键轮询定时器，保证消抖时间
         EXTI_ClearITPendingBit(EXTI_Line1); //清除LINE1上的中断标志位
     }
 }

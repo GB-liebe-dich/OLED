@@ -19,7 +19,7 @@
 #include "sys.h"
 
 /*=============================== 宏定义/重定义 ===============================*/
-#define QUERY_MODE 0 //为0表示仅采用定时查询方式，为1表示采用定时+中断方式
+#define QUERY_MODE 1 //为0表示仅采用定时查询方式，为1表示采用定时+中断方式
 #if (QUERY_MODE == 1)
 #define BUTTON_TIMING    //按键采用定时查询方式
 #define BUTTON_INTERRUPT //按键采用中断查询方式
