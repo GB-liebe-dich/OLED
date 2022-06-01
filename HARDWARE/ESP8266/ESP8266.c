@@ -162,16 +162,13 @@ uint8 ESP8266_GetTime(void)
                 {
                     memcpy(tTime, &g_USART3_RxData.USART_RX_BUF[tPos + 13], 24);
 
-                    tClock.w_year = (((tTime[20] & 0x0F) * 1000) 
-                                    + ((tTime[21] & 0x0F) * 100) 
-                                    + ((tTime[22] & 0x0F) * 10) 
-                                    + (tTime[23] & 0x0F));                          //年
-                    tClock.w_month = EngMonthGetNum(&tTime[4], 3);                  //月
-                    tClock.w_date = ((tTime[8] & 0x0F) * 10) + (tTime[9] & 0x0F);   //日
-                    tClock.week = EngWeekGetNum(&tTime[0], 3);                      //周
-                    tClock.hour = ((tTime[11] & 0x0F) * 10) + (tTime[12] & 0x0F);   //时
-                    tClock.min = ((tTime[14] & 0x0F) * 10) + (tTime[15] & 0x0F);    //分
-                    tClock.sec = ((tTime[17] & 0x0F) * 10) + (tTime[18] & 0x0F);    //秒
+                    tClock.w_year = (((tTime[20] & 0x0F) * 1000) + ((tTime[21] & 0x0F) * 100) + ((tTime[22] & 0x0F) * 10) + (tTime[23] & 0x0F)); //年
+                    tClock.w_month = EngMonthGetNum(&tTime[4], 3);                                                                               //月
+                    tClock.w_date = ((tTime[8] & 0x0F) * 10) + (tTime[9] & 0x0F);                                                                //日
+                    tClock.week = EngWeekGetNum(&tTime[0], 3);                                                                                   //周
+                    tClock.hour = ((tTime[11] & 0x0F) * 10) + (tTime[12] & 0x0F);                                                                //时
+                    tClock.min = ((tTime[14] & 0x0F) * 10) + (tTime[15] & 0x0F);                                                                 //分
+                    tClock.sec = ((tTime[17] & 0x0F) * 10) + (tTime[18] & 0x0F);                                                                 //秒
                     /* 存时间到RTC计数器 */
                     RTC_Set(tClock.w_year, tClock.w_month, tClock.w_date, tClock.hour, tClock.min, tClock.sec);
 
