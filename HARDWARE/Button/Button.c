@@ -170,8 +170,17 @@ uint32 GetButtonEvent(void)
                 {
                     if (user_button[i].Button_event == PENDING)
                     {
-                        user_button[i].click_cnt++;
-                        user_button[i].Button_state = PRESS_BOUNCE;
+                        if ((user_button[i].scan_cnt >= user_button[i].Long_Click_Time) && (user_button[i].click_cnt == 0))
+                        {
+                            user_button[i].click_cnt = 0;
+                            user_button[i].Button_state = BOUNCE;
+                            user_button[i].Button_event = LONG_CLICK; //³¤°´¼ü
+                        }
+                        else
+                        {
+                            user_button[i].click_cnt++;
+                            user_button[i].Button_state = PRESS_BOUNCE;
+                        }
                     }
                     else //Ïû¶¶Ê§°Ü
                     {
