@@ -109,6 +109,8 @@ uint32 GetButtonEvent(void)
     if (Button_EXIT == 0xAA)
     {
         delay_ms(6);                        //按键中断延时消抖
+        user_button[i].Button_state = PRESS;
+        user_button[i].Button_event = PENDING;
         EXTI_ClearITPendingBit(EXTI_Line1); //清除LINE1上的中断标志位
     }
     /* 一次性读取全部按键状态，存在button_data中，每1位代表一个按键状态，按键1在最低位 */
@@ -139,10 +141,6 @@ uint32 GetButtonEvent(void)
                     user_button[i].scan_cnt = 0;
                     user_button[i].click_cnt = 0;
                     user_button[i].Button_state = PRESS;
-                    if ((user_button[i].EN_EXTI == 0xAA) && (Button_EXIT == 0xAA)) //有中断事件
-                    {
-                        user_button[i].Button_event = PENDING; //置按键事件待定
-                    }
                 }
                 else
                 {
