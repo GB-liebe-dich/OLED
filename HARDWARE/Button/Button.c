@@ -108,7 +108,7 @@ uint32 GetButtonEvent(void)
 
     if (Button_EXIT == 0xAA)
     {
-        delay_ms(6);                        //按键中断延时消抖
+        delay_ms(6); //按键中断延时消抖
         user_button[i].Button_state = PRESS;
         user_button[i].Button_event = PENDING;
         EXTI_ClearITPendingBit(EXTI_Line1); //清除LINE1上的中断标志位
@@ -124,7 +124,7 @@ uint32 GetButtonEvent(void)
     {
         if (((user_button[i].EN_EXTI == 0xAA) && (Button_EXIT == 0xAA)) || (user_button[i].EN_EXTI == 0)) //开启中断使能的按键，需等有按键标志才去检测
         {
-            if (user_button[i].Button_state > BOUNCE)
+            if (user_button[i].Button_event == PENDING)
             {
                 user_button[i].scan_cnt++;
                 if (user_button[i].scan_cnt >= ((1 << (sizeof(user_button[i].scan_cnt) * 8)) - 1))
@@ -138,81 +138,68 @@ uint32 GetButtonEvent(void)
             case BOUNCE:                       //弹起状态
                 if ((button_data >> i) & 0x01) //按键按下
                 {
-                    user_button[i].scan_cnt = 0;
-                    user_button[i].click_cnt = 0;
-                    user_button[i].Button_state = PRESS;
+                    if (user_button[i].Button_event == DEFAULT)
+                    {
+                        user_button[i].scan_cnt = 0;
+                        user_button[i].click_cnt = 0;
+                        user_button[i].Button_event = PENDING; //置按键事件待定
+                    }
+                    else if (user_button[i].scan_cnt >= user_button[i].Debounce_Time) //消抖
+                    {
+                        user_button[i].Button_state = PRESS;
+                    }
                 }
-                else
+                else //消抖失败
                 {
-                    user_button[i].Button_event = DEFAULT;
+                    if (user_button[i].click_cnt > 1)
+                    {
+                        user_button[i].click_cnt = 0;
+                        user_button[i].Button_event = DOUBLE_CLICK; //连击
+                    }
+                    else if (user_button[i].click_cnt == 1)
+                    {
+                        user_button[i].click_cnt = 0;
+                        user_button[i].Button_event = SINGLE_CLICK; //单击
+                    }
+                    else
+                    {
+                        user_button[i].Button_event = DEFAULT; //无按键
+                    }
                 }
                 break;
             case PRESS:                        //按下状态
                 if ((button_data >> i) & 0x01) //按键按下
                 {
-                    if (user_button[i].Button_event == DEFAULT)
-                    {
-                        if (user_button[i].scan_cnt >= user_button[i].Debounce_Time) //消抖
-                        {
-                            user_button[i].Button_event = PENDING; //置按键事件待定
-                        }
-                    }
-                    else if ((user_button[i].scan_cnt >= user_button[i].Long_Click_Time) && (user_button[i].click_cnt == 0))
+                    if (user_button[i].click_cnt > 0)
                     {
                         user_button[i].click_cnt = 0;
-                        user_button[i].Button_state = BOUNCE;
+                        user_button[i].Button_event = DOUBLE_CLICK; //连击
+                        user_button[i].Button_state = KEEP_CLICK;   //等待按键弹起
+                    }
+                    else if (user_button[i].scan_cnt >= user_button[i].Long_Click_Time)
+                    {
                         user_button[i].Button_event = LONG_CLICK; //长按键
+                        user_button[i].Button_state = KEEP_CLICK; //等待按键弹起
                     }
                 }
                 else
                 {
-                    if (user_button[i].Button_event == PENDING)
-                    {
-                        if ((user_button[i].scan_cnt >= user_button[i].Long_Click_Time) && (user_button[i].click_cnt == 0))
-                        {
-                            user_button[i].click_cnt = 0;
-                            user_button[i].Button_state = BOUNCE;
-                            user_button[i].Button_event = LONG_CLICK; //长按键
-                        }
-                        else
-                        {
-                            user_button[i].click_cnt++;
-                            user_button[i].Button_state = PRESS_BOUNCE;
-                        }
-                    }
-                    else //消抖失败
-                    {
-                        if (user_button[i].click_cnt > 1)
-                        {
-                            user_button[i].click_cnt = 0;
-                            user_button[i].Button_event = DOUBLE_CLICK; //连击
-                        }
-                        else if (user_button[i].click_cnt == 1)
-                        {
-                            user_button[i].click_cnt = 0;
-                            user_button[i].Button_event = SINGLE_CLICK; //单击
-                        }
-                        else
-                        {
-                            user_button[i].Button_event = DEFAULT; //无按键
-                        }
-                        user_button[i].Button_state = BOUNCE;
-                    }
                     user_button[i].scan_cnt = 0;
+                    user_button[i].click_cnt++;
+                    user_button[i].Button_state = PRESS_BOUNCE;
                 }
                 break;
             case PRESS_BOUNCE:                 //回弹等待状态
                 if ((button_data >> i) & 0x01) //按键按下
                 {
                     user_button[i].scan_cnt = 0;
-                    user_button[i].Button_event = DEFAULT;
-                    user_button[i].Button_state = PRESS;
+                    user_button[i].Button_state = BOUNCE;
+                    user_button[i].Button_event = PENDING; //直接置按键待定，即开始消抖
                 }
                 else
                 {
                     if (user_button[i].scan_cnt >= user_button[i].Double_Click_Time)
                     {
-                        user_button[i].Button_state = BOUNCE;
                         if (user_button[i].click_cnt > 1)
                         {
                             user_button[i].click_cnt = 0;
@@ -223,9 +210,15 @@ uint32 GetButtonEvent(void)
                             user_button[i].click_cnt = 0;
                             user_button[i].Button_event = SINGLE_CLICK; //点击
                         }
+                        user_button[i].Button_state = BOUNCE;
                     }
                 }
                 break;
+            case KEEP_CLICK:
+                if (!((button_data >> i) & 0x01)) //按键弹起
+                {
+                    user_button[i].Button_state = BOUNCE;
+                }
             default:
                 break;
             }

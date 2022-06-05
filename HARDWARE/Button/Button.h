@@ -57,6 +57,7 @@ typedef enum
 {
     BOUNCE = 0,  //弹起
     PRESS,       //按下
+    KEEP_CLICK,  //按下保持
     PRESS_BOUNCE //回弹等待状态，等待多连击
 } BUTTON_ACTION;
 
