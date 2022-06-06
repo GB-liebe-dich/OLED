@@ -91,6 +91,29 @@ void UserButtonInit(void)
         }
     }
 }
+/**
+ * @brief   获取当前按键状态
+ * @param   [In]
+ * @param   [Out]
+ * @return
+ * @version 1.0.0
+ * @date    2022-06-06
+ * @note
+ **/
+uint32 GetButtonData(void)
+{
+    uint8 i; //用于for循环
+    uint32 tButtonData = 0; //按键状态，每一位代表一个按键是否被按下，1：按下 0：弹起
+
+    /* 一次性读取全部按键状态，存在tButtonData中，每1位代表一个按键状态，按键1在最低位 */
+    for (i = 0; i < USER_BUTTON_MAX; i++)
+    {
+        tButtonData |= (((user_button[i].Button_read)(&user_button[i]) ^ user_button[i].Pressed_Logic_Level)
+                         << i); //获取按键状态
+    }
+
+    return tButtonData;
+}
 
 /**
  * @brief   获取当前按键事件
@@ -101,131 +124,135 @@ void UserButtonInit(void)
  * @date    2022-05-04
  * @note
  **/
-uint32 GetButtonEvent(void)
+uint32 GetButtonEvent(uint32 button_data)
 {
-    uint8 i;                //用于for循环
-    uint32 button_data = 0; //按键状态，每一位代表一个按键是否被按下，1：按下 0：弹起
-
-    if (Button_EXIT == 0xAA)
-    {
-        delay_ms(6); //按键中断延时消抖
-        user_button[i].Button_state = PRESS;
-        user_button[i].Button_event = PENDING;
-        EXTI_ClearITPendingBit(EXTI_Line1); //清除LINE1上的中断标志位
-    }
-    /* 一次性读取全部按键状态，存在button_data中，每1位代表一个按键状态，按键1在最低位 */
-    for (i = 0; i < USER_BUTTON_MAX; i++)
-    {
-        button_data |= (((user_button[i].Button_read)(&user_button[i]) ^ user_button[i].Pressed_Logic_Level) << i); //获取按键状态
-    }
+    uint8 i; //用于for循环
+    uint32 tButtonEvent = 0;  //缓存按键事件
 
     /* 获取按键事件 */
     for (i = 0; i < USER_BUTTON_MAX; i++)
     {
-        if (((user_button[i].EN_EXTI == 0xAA) && (Button_EXIT == 0xAA)) || (user_button[i].EN_EXTI == 0)) //开启中断使能的按键，需等有按键标志才去检测
+        if (user_button[i].Button_event == PENDING)
         {
-            if (user_button[i].Button_event == PENDING)
+            user_button[i].scan_cnt++;
+            if (user_button[i].scan_cnt >= ((1 << (sizeof(user_button[i].scan_cnt) * 8)) - 1))
             {
-                user_button[i].scan_cnt++;
-                if (user_button[i].scan_cnt >= ((1 << (sizeof(user_button[i].scan_cnt) * 8)) - 1))
+                user_button[i].scan_cnt = user_button[i].Long_Click_Time;
+            }
+        }
+        /* 按键事件状态机 */
+        switch (user_button[i].Button_state)
+        {
+        case BOUNCE:                       //弹起状态
+            if ((button_data >> i) & 0x01) //按键按下
+            {
+                if (user_button[i].Button_event == DEFAULT)
                 {
-                    user_button[i].scan_cnt = user_button[i].Long_Click_Time;
+                    user_button[i].scan_cnt = 0;
+                    user_button[i].click_cnt = 0;
+                    user_button[i].Button_event = PENDING; //置按键事件待定
+                }
+                else if (user_button[i].scan_cnt >= user_button[i].Debounce_Time) //消抖
+                {
+                    user_button[i].Button_state = PRESS;
                 }
             }
-            /* 按键事件状态机 */
-            switch (user_button[i].Button_state)
+            else //消抖失败
             {
-            case BOUNCE:                       //弹起状态
-                if ((button_data >> i) & 0x01) //按键按下
+                if (user_button[i].click_cnt > 1)
                 {
-                    if (user_button[i].Button_event == DEFAULT)
-                    {
-                        user_button[i].scan_cnt = 0;
-                        user_button[i].click_cnt = 0;
-                        user_button[i].Button_event = PENDING; //置按键事件待定
-                    }
-                    else if (user_button[i].scan_cnt >= user_button[i].Debounce_Time) //消抖
-                    {
-                        user_button[i].Button_state = PRESS;
-                    }
+                    user_button[i].click_cnt = 0;
+                    user_button[i].Button_event = DOUBLE_CLICK; //连击
+                    tButtonEvent |= (1 << i);
                 }
-                else //消抖失败
+                else if (user_button[i].click_cnt == 1)
+                {
+                    user_button[i].click_cnt = 0;
+                    user_button[i].Button_event = SINGLE_CLICK; //单击
+                    tButtonEvent |= (1 << i);
+                }
+                else
+                {
+                    user_button[i].Button_event = DEFAULT; //无按键
+                }
+            }
+            break;
+        case PRESS:                        //按下状态
+            if ((button_data >> i) & 0x01) //按键按下
+            {
+                if (user_button[i].click_cnt > 0)
+                {
+                    user_button[i].click_cnt = 0;
+                    user_button[i].Button_event = DOUBLE_CLICK; //连击
+                    user_button[i].Button_state = KEEP_CLICK;   //等待按键弹起
+                    tButtonEvent |= (1 << i);
+                }
+                else if (user_button[i].scan_cnt >= user_button[i].Long_Click_Time)
+                {
+                    user_button[i].Button_event = LONG_CLICK; //长按键
+                    user_button[i].Button_state = KEEP_CLICK; //等待按键弹起
+                    tButtonEvent |= (1 << i);
+                }
+            }
+            else
+            {
+                user_button[i].scan_cnt = 0;
+                user_button[i].click_cnt++;
+                user_button[i].Button_state = PRESS_BOUNCE;
+            }
+            break;
+        case PRESS_BOUNCE:                 //回弹等待状态
+            if ((button_data >> i) & 0x01) //按键按下
+            {
+                user_button[i].scan_cnt = 0;
+                user_button[i].Button_state = BOUNCE;
+                user_button[i].Button_event = PENDING; //直接置按键待定，即开始消抖
+            }
+            else
+            {
+                if (user_button[i].scan_cnt >= user_button[i].Double_Click_Time)
                 {
                     if (user_button[i].click_cnt > 1)
                     {
                         user_button[i].click_cnt = 0;
                         user_button[i].Button_event = DOUBLE_CLICK; //连击
-                    }
-                    else if (user_button[i].click_cnt == 1)
-                    {
-                        user_button[i].click_cnt = 0;
-                        user_button[i].Button_event = SINGLE_CLICK; //单击
+                        tButtonEvent |= (1 << i);
                     }
                     else
                     {
-                        user_button[i].Button_event = DEFAULT; //无按键
-                    }
-                }
-                break;
-            case PRESS:                        //按下状态
-                if ((button_data >> i) & 0x01) //按键按下
-                {
-                    if (user_button[i].click_cnt > 0)
-                    {
                         user_button[i].click_cnt = 0;
-                        user_button[i].Button_event = DOUBLE_CLICK; //连击
-                        user_button[i].Button_state = KEEP_CLICK;   //等待按键弹起
+                        user_button[i].Button_event = SINGLE_CLICK; //点击
+                        tButtonEvent |= (1 << i);
                     }
-                    else if (user_button[i].scan_cnt >= user_button[i].Long_Click_Time)
-                    {
-                        user_button[i].Button_event = LONG_CLICK; //长按键
-                        user_button[i].Button_state = KEEP_CLICK; //等待按键弹起
-                    }
-                }
-                else
-                {
-                    user_button[i].scan_cnt = 0;
-                    user_button[i].click_cnt++;
-                    user_button[i].Button_state = PRESS_BOUNCE;
-                }
-                break;
-            case PRESS_BOUNCE:                 //回弹等待状态
-                if ((button_data >> i) & 0x01) //按键按下
-                {
-                    user_button[i].scan_cnt = 0;
-                    user_button[i].Button_state = BOUNCE;
-                    user_button[i].Button_event = PENDING; //直接置按键待定，即开始消抖
-                }
-                else
-                {
-                    if (user_button[i].scan_cnt >= user_button[i].Double_Click_Time)
-                    {
-                        if (user_button[i].click_cnt > 1)
-                        {
-                            user_button[i].click_cnt = 0;
-                            user_button[i].Button_event = DOUBLE_CLICK; //连击
-                        }
-                        else
-                        {
-                            user_button[i].click_cnt = 0;
-                            user_button[i].Button_event = SINGLE_CLICK; //点击
-                        }
-                        user_button[i].Button_state = BOUNCE;
-                    }
-                }
-                break;
-            case KEEP_CLICK:
-                if (!((button_data >> i) & 0x01)) //按键弹起
-                {
                     user_button[i].Button_state = BOUNCE;
                 }
-            default:
-                break;
             }
+            break;
+        case KEEP_CLICK:
+            if (!((button_data >> i) & 0x01)) //按键弹起
+            {
+                user_button[i].Button_state = BOUNCE;
+            }
+        default:
+            break;
         }
     }
 
-    return button_data;
+    return tButtonEvent;
+}
+
+/**
+ * @brief   按键任务
+ * @param   [In]
+ * @param   [Out]
+ * @return  
+ * @version 1.0.0
+ * @date    2022-06-06
+ * @note    
+ **/
+void Buttontask(void)
+{
+    ;
 }
 
 /*================================= 接口函数 =================================*/
@@ -303,9 +330,22 @@ void ButtonInit(void)
  **/
 void HandleButtonEvent(void)
 {
-    if (GetButtonEvent()) //有按键按下
+    uint32 tButton; //缓存按键键值
+
+    if (Button_EXIT == 0xAA)
     {
-        ;
+        delay_ms(6); //按键中断延时消抖
+        user_button[i].scan_cnt = 0;
+        user_button[i].Button_state = BOUNCE;
+        user_button[i].Button_event = PENDING; //直接置按键待定，即开始消抖
+        EXTI_ClearITPendingBit(EXTI_Line1); //清除LINE1上的中断标志位
+    }
+
+    tButton = GetButtonData();
+
+    if (GetButtonEvent(tButton)) //有按键按下
+    {
+        Buttontask();   //执行按键任务
     }
 }
 
