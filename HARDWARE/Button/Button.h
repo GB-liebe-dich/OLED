@@ -19,7 +19,7 @@
 #include "sys.h"
 
 /*=============================== 宏定义/重定义 ===============================*/
-#define QUERY_MODE 1 //为0表示仅采用定时查询方式，为1表示采用定时+中断方式
+#define QUERY_MODE 0 //为0表示仅采用定时查询方式，为1表示采用定时+中断方式
 #if (QUERY_MODE == 1)
 #define BUTTON_TIMING    //按键采用定时查询方式
 #define BUTTON_INTERRUPT //按键采用中断查询方式
@@ -32,9 +32,13 @@
 #define DOUBLE_C_TIME 2       //双击有效间隔
 #define LONG_C_TIME 3         //长按有效时间
 #define DEFAULT_LOGIC_LEVEL 0 //默认逻辑电平
-#define KEY PBin(0)
-#define EC11_A PAin(1)
-#define EC11_B PAin(0)
+#define KEY_PIN PBin(0)
+#define EC11_A_PIN PAin(1)
+#define EC11_B_PIN PAin(0)
+
+#define KEY_EVENT    (user_button[1].Button_event)
+#define EC11_A_EVENT (user_button[1].Button_event)
+#define EC11_B_EVENT (user_button[2].Button_event)
 
 /*========================== 枚举体/联合体/结构体定义 ==========================*/
 /**
@@ -97,8 +101,15 @@ typedef struct _button_attribute
 extern BUTTON_ATTRIBUTE user_button[USER_BUTTON_MAX];
 
 /*================================= 私有函数 =================================*/
+static uint8 GetButtonValue(void *arg);
+void UserButtonInit(void);
+uint32 GetButtonData(void);
+uint32 GetButtonEvent(uint32 button_data);
+void Buttontask(void);
 
 /*================================= 接口函数 =================================*/
+extern void ButtonInit(void);
+extern void HandleButtonEvent(void);
 
 #endif
 /*================================= 文件结尾 =================================*/

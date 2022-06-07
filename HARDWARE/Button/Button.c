@@ -42,13 +42,13 @@ static uint8 GetButtonValue(void *arg)
     switch (btn->ID)
     {
     case USER_BUTTON_0:
-        value = KEY;
+        value = KEY_PIN;
         break;
     case USER_BUTTON_1:
-        value = EC11_A;
+        value = EC11_A_PIN;
         break;
     case USER_BUTTON_2:
-        value = EC11_B;
+        value = EC11_B_PIN;
         break;
     default:
         break;
@@ -102,14 +102,14 @@ void UserButtonInit(void)
  **/
 uint32 GetButtonData(void)
 {
-    uint8 i; //用于for循环
+    uint8 i;                //用于for循环
     uint32 tButtonData = 0; //按键状态，每一位代表一个按键是否被按下，1：按下 0：弹起
 
     /* 一次性读取全部按键状态，存在tButtonData中，每1位代表一个按键状态，按键1在最低位 */
     for (i = 0; i < USER_BUTTON_MAX; i++)
     {
         tButtonData |= (((user_button[i].Button_read)(&user_button[i]) ^ user_button[i].Pressed_Logic_Level)
-                         << i); //获取按键状态
+                        << i); //获取按键状态
     }
 
     return tButtonData;
@@ -126,8 +126,8 @@ uint32 GetButtonData(void)
  **/
 uint32 GetButtonEvent(uint32 button_data)
 {
-    uint8 i; //用于for循环
-    uint32 tButtonEvent = 0;  //缓存按键事件
+    uint8 i;                 //用于for循环
+    uint32 tButtonEvent = 0; //缓存按键事件
 
     /* 获取按键事件 */
     for (i = 0; i < USER_BUTTON_MAX; i++)
@@ -245,14 +245,54 @@ uint32 GetButtonEvent(uint32 button_data)
  * @brief   按键任务
  * @param   [In]
  * @param   [Out]
- * @return  
+ * @return
  * @version 1.0.0
  * @date    2022-06-06
- * @note    
+ * @note
  **/
 void Buttontask(void)
 {
-    ;
+    //========= 轻触按键 =========//
+    if (KEY_EVENT > PENDING)
+    {
+        if (KEY_EVENT == SINGLE_CLICK) //单击
+        {
+            if (g_SetWifi_Cursor.state == 1)
+            {
+                g_SetWifi_Cursor.state = 2; /* 进入设置状态 */
+            }
+            else if (!g_SetWifi_Cursor.state)
+            {
+                g_SetWifi_Cursor.state = 1; /* 进入选择状态 */
+            }
+            else
+            {
+                g_SetWifi_Cursor.position = 0;
+                g_SetWifi_Cursor.state = 0;
+                g_Display.Interface_State = 0;
+            }
+        }
+        else if (KEY_EVENT == DOUBLE_CLICK) //连击
+        {
+            ;
+        }
+        else //长按
+        {
+            ;
+        }
+    }
+    //========= EC11的A和B =========//
+    if (EC11_A_EVENT == SINGLE_CLICK)
+    {
+        if (EC11_B_EVENT == SINGLE_CLICK) //正转
+        {
+            ;
+        }
+        else //反转
+        {
+            ;
+        }
+    }
 }
 
 /*================================= 接口函数 =================================*/
@@ -330,22 +370,13 @@ void ButtonInit(void)
  **/
 void HandleButtonEvent(void)
 {
-    uint32 tButton; //缓存按键键值
+    uint32 tButtonData; //缓存按键键值
 
-    if (Button_EXIT == 0xAA)
+    tButtonData = GetButtonData();
+
+    if (GetButtonEvent(tButtonData)) //有按键按下
     {
-        delay_ms(6); //按键中断延时消抖
-        user_button[i].scan_cnt = 0;
-        user_button[i].Button_state = BOUNCE;
-        user_button[i].Button_event = PENDING; //直接置按键待定，即开始消抖
-        EXTI_ClearITPendingBit(EXTI_Line1); //清除LINE1上的中断标志位
-    }
-
-    tButton = GetButtonData();
-
-    if (GetButtonEvent(tButton)) //有按键按下
-    {
-        Buttontask();   //执行按键任务
+        Buttontask(); //执行按键任务
     }
 }
 
@@ -381,9 +412,8 @@ void EXTI1_IRQHandler(void)
 {
     if (EXTI_GetITStatus(EXTI_Line1) != RESET) //判断某个线上的中断是否发生
     {
-        Button_EXIT = 0xAA; //置按键中断事件标志
-
-        //在GetButtonEvent()中清中断标志，防止因而抖动反复进入
+        Button_EXIT = 0xAA;                 //置按键中断事件标志
+        EXTI_ClearITPendingBit(EXTI_Line1); //清除LINE1上的中断标志位
     }
 }
 #endif
