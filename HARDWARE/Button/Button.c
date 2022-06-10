@@ -16,6 +16,7 @@
 
 /*================================ 头文件包含 =================================*/
 #include "Button.h"
+#include "display.h"
 
 /*================================= 全局变量 =================================*/
 #ifdef BUTTON_INTERRUPT
@@ -229,7 +230,7 @@ uint32 GetButtonEvent(uint32 button_data)
             }
             break;
         case KEEP_CLICK:
-            if (!((button_data >> i) & 0x01)) //按键弹起
+            if (!((button_data >> i) & 0x01)) //等待按键弹起
             {
                 user_button[i].Button_state = BOUNCE;
             }
@@ -239,6 +240,33 @@ uint32 GetButtonEvent(uint32 button_data)
     }
 
     return tButtonEvent;
+}
+/**
+ * @brief   获取EC11动作
+ * @param   [In]
+ * @param   [Out]
+ * @return  
+ * @version 1.0.0
+ * @date    2022-06-10
+ * @note    
+ **/
+uint8 GetEC11Data(void)
+{
+    uint8 tDirection = 0;   //转动方向，0xAA表示正转，0x55表示反转，其他表示无转动
+
+    if (EC11_A_EVENT == SINGLE_CLICK)
+    {
+        if (EC11_B_EVENT == SINGLE_CLICK) //正转
+        {
+            tDirection = 0xAA;
+        }
+        else //反转
+        {
+            tDirection = 0x55;
+        }
+    }
+
+    return tDirection;
 }
 
 /**
@@ -252,9 +280,46 @@ uint32 GetButtonEvent(uint32 button_data)
  **/
 void Buttontask(void)
 {
-    //========= 轻触按键 =========//
-    if (KEY_EVENT > PENDING)
+    uint8 i;    //用于for循环
+    uint8 tEC11Data;    //缓存EC11键值
+    
+    //========= 按键事件处理 =========//
+    if ((KEY_EVENT > PENDING) || (EC11_A_EVENT >PENDING))
     {
+        tEC11Data = GetEC11Data();  //获取EC11状态
+
+        switch (g_Display.Now_interface)
+            {
+            case main_interface:
+                if(KEY_EVENT == LONG_CLICK)
+                {
+                    g_Display.Now_interface = menu_interface;
+                }
+                break;
+            case menu_interface:
+            if (KEY_EVENT == SINGLE_CLICK)
+            {
+                ;
+            }
+            if (tEC11Data)
+            {
+                (tEC11Data == 0xAA) ? g_SetWifi_Cursor.position++
+                                    : g_SetWifi_Cursor.position--;
+            }
+            
+                break;
+            case WiFiSet_interface:
+                break;
+            case Update_interface:
+                break;
+            default:
+                break;
+            }
+
+
+
+
+
         if (KEY_EVENT == SINGLE_CLICK) //单击
         {
             if (g_SetWifi_Cursor.state == 1)
@@ -278,20 +343,14 @@ void Buttontask(void)
         }
         else //长按
         {
-            ;
+            
         }
     }
-    //========= EC11的A和B =========//
-    if (EC11_A_EVENT == SINGLE_CLICK)
+
+    //========= 清除按键事件 =========//
+    for (i = 0; i < USER_BUTTON_MAX; i++)
     {
-        if (EC11_B_EVENT == SINGLE_CLICK) //正转
-        {
-            ;
-        }
-        else //反转
-        {
-            ;
-        }
+        user_button[i].Button_event = DEFAULT;
     }
 }
 
