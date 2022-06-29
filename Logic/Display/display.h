@@ -46,7 +46,7 @@ typedef struct _display {
  * @note  
 **/
 typedef struct _cursor {
-    uint8 state;    /* 选择状态，0：隐藏，1：选择，2：设置 */
+    uint8 state;    /* 选择状态，0：隐藏，0x55：选择，0xAA：设置 */
     uint8 position;   /* 光标目前所在位置 */
     uint8 twinkle;   /* 光标闪烁标志 */
 } CURSOR;

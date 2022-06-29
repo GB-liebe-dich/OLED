@@ -286,64 +286,49 @@ void Buttontask(void)
     //========= 按键事件处理 =========//
     if ((KEY_EVENT > PENDING) || (EC11_A_EVENT >PENDING))
     {
-        tEC11Data = GetEC11Data();  //获取EC11状态
+        if (g_SetWifi_Cursor.state) //选择或设置状态光标指针才有效
+        {
+            tEC11Data = GetEC11Data(); //获取EC11状态
 
-        switch (g_Display.Now_interface)
-            {
-            case main_interface:
-                if(KEY_EVENT == LONG_CLICK)
-                {
-                    g_Display.Now_interface = menu_interface;
-                }
-                break;
-            case menu_interface:
-            if (KEY_EVENT == SINGLE_CLICK)
-            {
-                ;
-            }
             if (tEC11Data)
             {
                 (tEC11Data == 0xAA) ? g_SetWifi_Cursor.position++
                                     : g_SetWifi_Cursor.position--;
             }
-            
-                break;
-            case WiFiSet_interface:
-                break;
-            case Update_interface:
-                break;
-            default:
-                break;
-            }
-
-
-
-
-
-        if (KEY_EVENT == SINGLE_CLICK) //单击
-        {
-            if (g_SetWifi_Cursor.state == 1)
-            {
-                g_SetWifi_Cursor.state = 2; /* 进入设置状态 */
-            }
-            else if (!g_SetWifi_Cursor.state)
-            {
-                g_SetWifi_Cursor.state = 1; /* 进入选择状态 */
-            }
-            else
-            {
-                g_SetWifi_Cursor.position = 0;
-                g_SetWifi_Cursor.state = 0;
-                g_Display.Interface_State = 0;
-            }
         }
-        else if (KEY_EVENT == DOUBLE_CLICK) //连击
+
+        switch (g_Display.Now_interface)
         {
-            ;
-        }
-        else //长按
-        {
-            
+          case main_interface:
+          {
+              if (KEY_EVENT == LONG_CLICK)
+              {
+                  g_Display.Now_interface = menu_interface;
+                  g_SetWifi_Cursor.state = 0x55;    //进入选择状态
+                  g_SetWifi_Cursor.position = 0;
+              }
+              break;
+          }break;
+          case menu_interface:
+          {
+              if (KEY_EVENT == SINGLE_CLICK)
+              {
+                  g_Display.Now_interface += g_SetWifi_Cursor.position;
+                  g_SetWifi_Cursor.position = 0;
+              }
+          }break;
+          case WiFiSet_interface:
+          {
+              
+          }break;
+          case Update_interface:
+          {
+              
+          }break;
+          default:
+          {
+              
+          }break;
         }
     }
 
