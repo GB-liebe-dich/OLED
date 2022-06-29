@@ -29,7 +29,8 @@ typedef enum _interface {
     main_interface = 0, //主界面
     menu_interface,     //菜单界面
     WiFiSet_interface,  //WiFi设置界面
-    Update_interface    //更新参数界面
+    Update_interface,    //更新参数界面
+    Max_interface
 } INTERFACE;
 
 /**

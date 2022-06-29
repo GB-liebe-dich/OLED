@@ -305,7 +305,7 @@ void Buttontask(void)
               {
                   g_Display.Now_interface = menu_interface;
                   g_SetWifi_Cursor.state = 0x55;    //进入选择状态
-                  g_SetWifi_Cursor.position = 0;
+                  g_SetWifi_Cursor.position = 0x01; //从1开始
               }
               break;
           }break;
@@ -315,6 +315,10 @@ void Buttontask(void)
               {
                   g_Display.Now_interface += g_SetWifi_Cursor.position;
                   g_SetWifi_Cursor.position = 0;
+              }
+              if (g_SetWifi_Cursor.position >= Max_interface)
+              {
+                  g_SetWifi_Cursor.position = 0x01;
               }
           }break;
           case WiFiSet_interface:
