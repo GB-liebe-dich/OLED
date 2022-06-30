@@ -56,9 +56,10 @@ void TIM3_Init(void)
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;           // IRQ 通道被使能
     NVIC_Init(&NVIC_InitStructure);                           //初始化 NVIC 寄存器
 
+    //========= 配置完成 =========//
     /* 开启中断 */
     TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE); //使能TIM3定时器中断
-    
+
     /* 使能定时器 */
     TIM_Cmd(TIM3, ENABLE); //使能TIM3定时器
 }
