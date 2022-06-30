@@ -19,7 +19,3 @@
 ..\obj\exit.o: ..\STM32F10x_FWLib\inc\stm32f10x_spi.h
 ..\obj\exit.o: ..\HARDWARE\EXTI\exit.h
 ..\obj\exit.o: ..\Logic\CLibrary\Clibrary.h
-..\obj\exit.o: ..\HARDWARE\KEY\key.h
-..\obj\exit.o: ..\Logic\Display\display.h
-..\obj\exit.o: ..\HARDWARE\ESP8266\ESP8266.h
-..\obj\exit.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

@@ -6,12 +6,11 @@
 #include "test.h"
 #include "Clibrary.h"
 #include "dht11.h"
-#include "key.h"
-#include "exit.h"
 #include "display.h"
 #include "rtc.h"
 #include "USART3.h"
 #include "ESP8266.h"
+#include "Button.h"
 
 u8 delayi;
 u8 t = 0;
@@ -25,9 +24,7 @@ int main(void)
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); //设置NVIC中断分组2:2位抢占优先级，2位响应优先级
     RTC_Init();                                     // RTC初始化
     DHT11_Init();
-    KEY_IO_Init();
     USART3_Init(115200); //初始化串口3
-    EXTIX_Init();
     OLED_Clear(0); //清屏（全黑）
 
     /* 开机任务 */
@@ -52,9 +49,6 @@ int main(void)
 
     while (1)
     {
-        LongKey_Scan();
-
-
         if (t % 30 == 0)
         {
             DHT11_Read_Data(&temperature, &humidity);
@@ -92,7 +86,7 @@ int main(void)
             /* 更新显示 */
             OLED_Display();
         }
-        if (KEY_SCAN())
+//        if (KEY_SCAN())
         {
             g_Display.Interface_State = 0;
         }

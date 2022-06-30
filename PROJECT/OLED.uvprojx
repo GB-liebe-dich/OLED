@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\SYSTEM\delay;..\SYSTEM\sys;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\OLED;..\HARDWARE\SPI;..\HARDWARE\DHT11;..\HARDWARE\KEY;..\HARDWARE\EXTI;..\Logic\CLibrary;..\Logic\Display;..\HARDWARE\RTC;..\SYSTEM\usart;..\STM32F10x_FWLib\inc;..\HARDWARE\ESP8266;..\HARDWARE\USART</IncludePath>
+              <IncludePath>..\SYSTEM\delay;..\SYSTEM\sys;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\OLED;..\HARDWARE\SPI;..\HARDWARE\DHT11;..\Logic\CLibrary;..\Logic\Display;..\HARDWARE\RTC;..\SYSTEM\usart;..\STM32F10x_FWLib\inc;..\HARDWARE\ESP8266;..\HARDWARE\USART;..\HARDWARE\Button</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -428,16 +428,6 @@
               <FilePath>..\HARDWARE\DHT11\dht11.c</FilePath>
             </File>
             <File>
-              <FileName>key.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\KEY\key.c</FilePath>
-            </File>
-            <File>
-              <FileName>Exit.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\EXTI\Exit.c</FilePath>
-            </File>
-            <File>
               <FileName>rtc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\RTC\rtc.c</FilePath>
@@ -451,6 +441,11 @@
               <FileName>USART3.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\USART\USART3.c</FilePath>
+            </File>
+            <File>
+              <FileName>Button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\Button\Button.c</FilePath>
             </File>
           </Files>
         </Group>

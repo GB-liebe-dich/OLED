@@ -1,7 +1,6 @@
 #include "delay.h"
 #include "stm32f10x_exti.h"
 #include "exit.h"
-#include "key.h"
 #include "delay.h"
 #include "display.h"
 #include "ESP8266.h"

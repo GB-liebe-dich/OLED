@@ -23,9 +23,8 @@
 ..\obj\main.o: ..\USER\test.h
 ..\obj\main.o: ..\Logic\CLibrary\Clibrary.h
 ..\obj\main.o: ..\HARDWARE\DHT11\dht11.h
-..\obj\main.o: ..\HARDWARE\KEY\key.h
-..\obj\main.o: ..\HARDWARE\EXTI\exit.h
 ..\obj\main.o: ..\Logic\Display\display.h
 ..\obj\main.o: ..\HARDWARE\RTC\rtc.h
 ..\obj\main.o: ..\HARDWARE\USART\USART3.h
 ..\obj\main.o: ..\HARDWARE\ESP8266\ESP8266.h
+..\obj\main.o: ..\HARDWARE\Button\Button.h

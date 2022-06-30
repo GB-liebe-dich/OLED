@@ -353,7 +353,7 @@ void Buttontask(void)
  * @date    2022-05-03
  * @note
  **/
-void ButtonInit(void)
+void Button_Init(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
     EXTI_InitTypeDef EXTI_InitStructure;
