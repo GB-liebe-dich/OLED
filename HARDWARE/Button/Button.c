@@ -17,6 +17,7 @@
 /*================================ 头文件包含 =================================*/
 #include "Button.h"
 #include "display.h"
+#include "USART3.h"
 
 /*================================= 全局变量 =================================*/
 #ifdef BUTTON_INTERRUPT
@@ -285,65 +286,84 @@ void Buttontask(void)
     uint8 i;    //用于for循环
     uint8 tEC11Data;    //缓存EC11键值
     
-    /*
-    //========= 按键事件处理 =========//
-    if ((KEY_EVENT > PENDING) || (EC11_A_EVENT > PENDING))
+    if (KEY_EVENT == SINGLE_CLICK)
     {
-        if (g_SetWifi_Cursor.state) //选择或设置状态光标指针才有效
-        {
-            tEC11Data = GetEC11Data(); //获取EC11状态
+        UartxSendStr(USART3, "SINGLE_CLICK");
+    }
 
-            if (tEC11Data)
-            {
-                (tEC11Data == 0xAA) ? g_SetWifi_Cursor.position++
-                                    : g_SetWifi_Cursor.position--;
-            }
-        }
+    if (KEY_EVENT == DOUBLE_CLICK)
+    {
+        UartxSendStr(USART3, "DOUBLE_CLICK");
+    }
+    
+    if (KEY_EVENT == LONG_CLICK)
+    {
+        UartxSendStr(USART3, "LONG_CLICK");
+    }
+    
+    if (EC11_A_EVENT == SINGLE_CLICK)
+    {
+        UartxSendStr(USART3, "A_SINGLE_CLICK");
+    }
+    
+    
+    //========= 按键事件处理 =========//
+    // if ((KEY_EVENT > PENDING) || (EC11_A_EVENT > PENDING))
+    // {
+    //     if (g_SetWifi_Cursor.state) //选择或设置状态光标指针才有效
+    //     {
+    //         tEC11Data = GetEC11Data(); //获取EC11状态
 
-        switch (g_Display.Now_interface)
-        {
-          case main_interface:
-          {
-              if (KEY_EVENT == LONG_CLICK)
-              {
-                  g_Display.Now_interface = menu_interface;
-                  g_SetWifi_Cursor.state = 0x55;    //进入选择状态
-                  g_SetWifi_Cursor.position = 0x01; //从1开始
-              }
-          }break;
-          case menu_interface:
-          {
-              if (KEY_EVENT == SINGLE_CLICK)
-              {
-                  g_Display.Now_interface += g_SetWifi_Cursor.position;
-                  g_SetWifi_Cursor.position = 0;
-              }
-              if (g_SetWifi_Cursor.position >= Max_interface)
-              {
-                  g_SetWifi_Cursor.position = 0x01;
-              }
-          }break;
-          case WiFiSet_interface:
-          {
+    //         if (tEC11Data)
+    //         {
+    //             (tEC11Data == 0xAA) ? g_SetWifi_Cursor.position++
+    //                                 : g_SetWifi_Cursor.position--;
+    //         }
+    //     }
+
+    //     switch (g_Display.Now_interface)
+    //     {
+    //       case main_interface:
+    //       {
+    //           if (KEY_EVENT == LONG_CLICK)
+    //           {
+    //               g_Display.Now_interface = menu_interface;
+    //               g_SetWifi_Cursor.state = 0x55;    //进入选择状态
+    //               g_SetWifi_Cursor.position = 0x01; //从1开始
+    //           }
+    //       }break;
+    //       case menu_interface:
+    //       {
+    //           if (KEY_EVENT == SINGLE_CLICK)
+    //           {
+    //               g_Display.Now_interface += g_SetWifi_Cursor.position;
+    //               g_SetWifi_Cursor.position = 0;
+    //           }
+    //           if (g_SetWifi_Cursor.position >= Max_interface)
+    //           {
+    //               g_SetWifi_Cursor.position = 0x01;
+    //           }
+    //       }break;
+    //       case WiFiSet_interface:
+    //       {
               
-          }break;
-          case Update_interface:
-          {
+    //       }break;
+    //       case Update_interface:
+    //       {
               
-          }break;
-          default:
-          {
+    //       }break;
+    //       default:
+    //       {
               
-          }break;
-          }
+    //       }break;
+    //       }
 
           //========= 清除按键事件 =========//
           for (i = 0; i < USER_BUTTON_MAX; i++)
           {
               user_button[i].Button_event = DEFAULT;
           }
-    }
-    */
+    // }
 }
 
 /*================================= 接口函数 =================================*/

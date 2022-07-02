@@ -33,22 +33,24 @@ int main(void)
     /* 开机任务 */
     Dis_PowerOn(); //开机动画
     OLED_Clear(0);
-    DHT11_Read_Data(&temperature, &humidity);
-    Dis_MainInterface(); //显示主界面，等待wifi连接
-    for (delayi = 0; delayi < 5; delayi++)
-    {
-        delay_ms(1500);
-        if (!ESP8266_QueryWifi())
-        {
-            g_8266State.wifi_online = 0xAA;
-            ESP8266_Weather();
-            if (SUCCESS == ESP8266_GetTime())
-            {
-                g_8266State.Timing = 0xAA;
-            }
-            break;
-        }
-    }
+    // DHT11_Read_Data(&temperature, &humidity);
+    // Dis_MainInterface(); //显示主界面，等待wifi连接
+    // for (delayi = 0; delayi < 5; delayi++)
+    // {
+    //     delay_ms(1500);
+    //     if (!ESP8266_QueryWifi())
+    //     {
+    //         g_8266State.wifi_online = 0xAA;
+    //         ESP8266_Weather();
+    //         if (SUCCESS == ESP8266_GetTime())
+    //         {
+    //             g_8266State.Timing = 0xAA;
+    //         }
+    //         break;
+    //     }
+    // }
+
+    UartxSendStr(USART3, "test start");
 
     while (1)
     {
@@ -97,7 +99,7 @@ int main(void)
         //     }
         //     /* 更新显示 */
             OLED_Display();
-        // }
+        }
 
         // __WFI(); //进入睡眠模式，等待中断
     }

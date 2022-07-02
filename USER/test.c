@@ -322,11 +322,6 @@ void main_bmp(void)
     }
 }
 
-void Display_test(void)
-{
-    ;
-}
-
 /*****************************************************************************
  * @name       :void TEST_Menu1(void)
  * @date       :2018-08-27 

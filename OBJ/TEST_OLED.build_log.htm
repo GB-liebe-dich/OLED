@@ -28,18 +28,10 @@ Project File Date:  07/01/2022
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Program Files\Keil_v5\ARM\ARMCC\Bin'
 Build target 'QD-OLED'
 compiling main.c...
-compiling ESP8266.c...
-..\HARDWARE\ESP8266\ESP8266.c(106): warning:  #167-D: argument of type "uint8 *" is incompatible with parameter of type "char *restrict"
-      AT_SETWIFI(t_SetWifi); // wifi参数
-..\HARDWARE\ESP8266\ESP8266.c(154): warning:  #167-D: argument of type "uint8 *" is incompatible with parameter of type "const char *"
-              if (!strstr(g_USART3_RxData.USART_RX_BUF, (uint8 *)"1970")) // 1970表示未校时成功
-..\HARDWARE\ESP8266\ESP8266.c(154): warning:  #167-D: argument of type "uint8 *" is incompatible with parameter of type "const char *"
-              if (!strstr(g_USART3_RxData.USART_RX_BUF, (uint8 *)"1970")) // 1970表示未校时成功
-..\HARDWARE\ESP8266\ESP8266.c(206): warning:  #167-D: argument of type "uint8 *" is incompatible with parameter of type "char *restrict"
-      AT_SETTCP(t_SetTcp); // TCP参数
-..\HARDWARE\ESP8266\ESP8266.c(202): warning:  #177-D: variable "tweather"  was declared but never referenced
-      uint8 tweather[10];
-..\HARDWARE\ESP8266\ESP8266.c: 5 warnings, 0 errors
+compiling Button.c...
+..\HARDWARE\Button\Button.c(287): warning:  #177-D: variable "tEC11Data"  was declared but never referenced
+      uint8 tEC11Data;    //缓存EC11键值
+..\HARDWARE\Button\Button.c: 1 warning, 0 errors
 compiling test.c...
 compiling display.c...
 ..\Logic\Display\display.c(68): warning:  #177-D: variable "shi"  was declared but never referenced
@@ -50,9 +42,9 @@ compiling display.c...
       u8 miao[3] = {0};
 ..\Logic\Display\display.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=26924 RO-data=5688 RW-data=5464 ZI-data=3528  
+Program Size: Code=25012 RO-data=5576 RW-data=5460 ZI-data=3524  
 FromELF: creating hex file...
-"..\OBJ\TEST_OLED.axf" - 0 Error(s), 8 Warning(s).
+"..\OBJ\TEST_OLED.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 

@@ -20,3 +20,4 @@
 ..\obj\button.o: ..\SYSTEM\sys\sys.h
 ..\obj\button.o: ..\STM32F10x_FWLib\inc\stm32f10x_spi.h
 ..\obj\button.o: ..\Logic\Display\display.h
+..\obj\button.o: ..\HARDWARE\USART\USART3.h
