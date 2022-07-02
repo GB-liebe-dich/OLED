@@ -15,6 +15,7 @@
 ..\obj\main.o: ..\STM32F10x_FWLib\inc\stm32f10x_pwr.h
 ..\obj\main.o: ..\STM32F10x_FWLib\inc\stm32f10x_rcc.h
 ..\obj\main.o: ..\STM32F10x_FWLib\inc\stm32f10x_rtc.h
+..\obj\main.o: ..\STM32F10x_FWLib\inc\stm32f10x_tim.h
 ..\obj\main.o: ..\STM32F10x_FWLib\inc\stm32f10x_usart.h
 ..\obj\main.o: ..\STM32F10x_FWLib\inc\misc.h
 ..\obj\main.o: ..\STM32F10x_FWLib\inc\stm32f10x_spi.h
@@ -28,3 +29,4 @@
 ..\obj\main.o: ..\HARDWARE\USART\USART3.h
 ..\obj\main.o: ..\HARDWARE\ESP8266\ESP8266.h
 ..\obj\main.o: ..\HARDWARE\Button\Button.h
+..\obj\main.o: ..\HARDWARE\Timer\Timer.h

@@ -27,10 +27,10 @@
 #define BUTTON_TIMING //按键采用定时查询方式
 #endif
 
-#define Scan_interval 0       //扫描间隔
+#define Scan_interval 0       //扫描间隔，单位ms
 #define SHAKE_TIME 1          //消抖时间
-#define DOUBLE_C_TIME 2       //双击有效间隔
-#define LONG_C_TIME 3         //长按有效时间
+#define DOUBLE_C_TIME 50      //双击有效间隔
+#define LONG_C_TIME 300       //长按有效时间
 #define DEFAULT_LOGIC_LEVEL 0 //默认逻辑电平
 #define KEY_PIN PBin(0)
 #define EC11_A_PIN PAin(1)
@@ -45,7 +45,7 @@
  * @brief 按键声明
  * @note  添加或删除按键在这里声明
  **/
-typedef enum
+enum
 {
     USER_BUTTON_0 = 0, //按键1
     USER_BUTTON_1,     //按键2
@@ -108,7 +108,7 @@ uint32 GetButtonEvent(uint32 button_data);
 void Buttontask(void);
 
 /*================================= 接口函数 =================================*/
-extern void ButtonInit(void);
+extern void Button_Init(void);
 extern void HandleButtonEvent(void);
 
 #endif

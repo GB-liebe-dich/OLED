@@ -13,6 +13,7 @@
 ..\obj\clibrary.o: ..\STM32F10x_FWLib\inc\stm32f10x_pwr.h
 ..\obj\clibrary.o: ..\STM32F10x_FWLib\inc\stm32f10x_rcc.h
 ..\obj\clibrary.o: ..\STM32F10x_FWLib\inc\stm32f10x_rtc.h
+..\obj\clibrary.o: ..\STM32F10x_FWLib\inc\stm32f10x_tim.h
 ..\obj\clibrary.o: ..\STM32F10x_FWLib\inc\stm32f10x_usart.h
 ..\obj\clibrary.o: ..\STM32F10x_FWLib\inc\misc.h
 ..\obj\clibrary.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

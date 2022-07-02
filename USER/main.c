@@ -11,6 +11,7 @@
 #include "USART3.h"
 #include "ESP8266.h"
 #include "Button.h"
+#include "Timer.h"
 
 u8 delayi;
 u8 t = 0;
@@ -25,7 +26,9 @@ int main(void)
     RTC_Init();                                     // RTC初始化
     DHT11_Init();
     USART3_Init(115200); //初始化串口3
-    OLED_Clear(0); //清屏（全黑）
+    TIM3_Init();
+    Button_Init();
+    OLED_Clear(0);       //清屏（全黑）
 
     /* 开机任务 */
     Dis_PowerOn(); //开机动画
@@ -49,88 +52,92 @@ int main(void)
 
     while (1)
     {
-        if (t % 30 == 0)
+        /* 10ms事件 */
+        if (BasicTimeFlg.ms_ten == 0xAA)
         {
-            DHT11_Read_Data(&temperature, &humidity);
+            BasicTimeFlg.ms_ten = 0x00;
+
+            HandleButtonEvent(); //按键事件处理
         }
 
-        if (t1 != calendar.sec) //秒事件
+        /* 1秒事件 */
+        if (BasicTimeFlg.S_one == 0xAA)
         {
-            t1 = calendar.sec;
+            BasicTimeFlg.S_one = 0x00;
+            
 
-            if (g_8266State.Timing != 0xAA) //校时
-            {
-                if (SUCCESS == ESP8266_GetTime())
-                {
-                    g_8266State.Timing = 0xAA;
-                }
-            }
 
-            //========= 显示处理 =========//
-            /* 初始化界面数组 */
-            switch (g_Display.Now_interface)
-            {
-            case main_interface:
-                Dis_MainInterface();
-                break;
-            case menu_interface:
-                break;
-            case WiFiSet_interface:
-                Dis_Wificonfig();
-                break;
-            case Update_interface:
-                break;
-            default:
-                break;
-            }
-            /* 更新显示 */
+        //     RTC_Get();                                //更新时间
+        //     DHT11_Read_Data(&temperature, &humidity); //读取温湿度
+
+        //     if (g_8266State.Timing != 0xAA) //校时
+        //     {
+        //         if (SUCCESS == ESP8266_GetTime())
+        //         {
+        //             g_8266State.Timing = 0xAA;
+        //         }
+        //     }
+
+        //     //========= 显示处理 =========//
+        //     /* 初始化界面数组 */
+        //     switch (g_Display.Now_interface)
+        //     {
+        //     case main_interface:
+        //         Dis_MainInterface();
+        //         break;
+        //     case menu_interface:
+        //         break;
+        //     case WiFiSet_interface:
+        //         Dis_Wificonfig();
+        //         break;
+        //     case Update_interface:
+        //         break;
+        //     default:
+        //         break;
+        //     }
+        //     /* 更新显示 */
             OLED_Display();
-        }
-//        if (KEY_SCAN())
-        {
-            g_Display.Interface_State = 0;
-        }
-
-        delay_ms(100);
-        t++;
-
-        // if (t % 1 == 0)
-        // {
-        //     if (g_SetWifi_Cursor.state)
-        //     {
-        //         if (g_SetWifi_Cursor.state == 1) /* 选择状态 */
-        //         {
-        //             g_SetWifi_Cursor.twinkle = 0;
-        //         }
-        //         else /* 设置状态 */
-        //         {
-        //             if (t % 3 == 0)
-        //             {
-        //                 g_SetWifi_Cursor.twinkle = !g_SetWifi_Cursor.twinkle;
-        //             }
-        //         }
-        //     }
-        //     Dis_Wificonfig();
-        // }
-        // if (KEY_SCAN())
-        // {
-        //     if (g_SetWifi_Cursor.state == 1)
-        //     {
-        //         g_SetWifi_Cursor.state = 2; /* 进入设置状态 */
-        //     }
-        //     else if (!g_SetWifi_Cursor.state)
-        //     {
-        //         g_SetWifi_Cursor.state = 1; /* 进入选择状态 */
-        //     }
-        //     else
-        //     {
-        //         g_SetWifi_Cursor.position = 0;
-        //         g_SetWifi_Cursor.state = 0;
-        //         g_Display.Interface_State = 0;
-        //     }
         // }
 
-        // delay_ms(100);
-        // t++;
+        // __WFI(); //进入睡眠模式，等待中断
     }
+
+    // if (t % 1 == 0)
+    // {
+    //     if (g_SetWifi_Cursor.state)
+    //     {
+    //         if (g_SetWifi_Cursor.state == 1) /* 选择状态 */
+    //         {
+    //             g_SetWifi_Cursor.twinkle = 0;
+    //         }
+    //         else /* 设置状态 */
+    //         {
+    //             if (t % 3 == 0)
+    //             {
+    //                 g_SetWifi_Cursor.twinkle = !g_SetWifi_Cursor.twinkle;
+    //             }
+    //         }
+    //     }
+    //     Dis_Wificonfig();
+    // }
+    // if (KEY_SCAN())
+    // {
+    //     if (g_SetWifi_Cursor.state == 1)
+    //     {
+    //         g_SetWifi_Cursor.state = 2; /* 进入设置状态 */
+    //     }
+    //     else if (!g_SetWifi_Cursor.state)
+    //     {
+    //         g_SetWifi_Cursor.state = 1; /* 进入选择状态 */
+    //     }
+    //     else
+    //     {
+    //         g_SetWifi_Cursor.position = 0;
+    //         g_SetWifi_Cursor.state = 0;
+    //         g_Display.Interface_State = 0;
+    //     }
+    // }
+
+    // delay_ms(100);
+    // t++;
 }

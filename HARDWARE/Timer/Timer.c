@@ -18,7 +18,8 @@
 #include "Timer.h"
 
 /*================================= 全局变量 =================================*/
-
+uint16 BasicTime;               //基本定时器，单位1ms加1
+BASICTIMEFLAG_Tydef BasicTimeFlg;  //基本时间标志
 
 /*================================= 私有函数 =================================*/
 
@@ -78,6 +79,16 @@ void TIM3_IRQHandler(void) // TIM3 中断
     if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET) //检查 TIM3 更新中断发生与否
     {
         TIM_ClearITPendingBit(TIM3, TIM_IT_Update); //清除 TIM3 更新中断标志
+
+        BasicTime++;
+        if ((BasicTime % 10) == 0)
+        {
+            BasicTimeFlg.ms_ten = 0xAA;
+        }
+        if ((BasicTime % 1000) == 0)
+        {
+            BasicTimeFlg.S_one = 0xAA;
+        }
     }
 }
 

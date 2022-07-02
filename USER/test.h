@@ -62,6 +62,7 @@ void TEST_Chinese(void);
 extern void TEST_BMP(void);
 extern void main_bmp(void);
 extern void Dis_time(void);
+extern void Display_test(void);
 
 
 void TEST_Menu1(void);

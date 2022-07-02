@@ -13,6 +13,7 @@
 ..\obj\usart.o: ..\STM32F10x_FWLib\inc\stm32f10x_pwr.h
 ..\obj\usart.o: ..\STM32F10x_FWLib\inc\stm32f10x_rcc.h
 ..\obj\usart.o: ..\STM32F10x_FWLib\inc\stm32f10x_rtc.h
+..\obj\usart.o: ..\STM32F10x_FWLib\inc\stm32f10x_tim.h
 ..\obj\usart.o: ..\STM32F10x_FWLib\inc\stm32f10x_usart.h
 ..\obj\usart.o: ..\STM32F10x_FWLib\inc\misc.h
 ..\obj\usart.o: ..\STM32F10x_FWLib\inc\stm32f10x_spi.h

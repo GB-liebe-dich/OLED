@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\SYSTEM\delay;..\SYSTEM\sys;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\OLED;..\HARDWARE\SPI;..\HARDWARE\DHT11;..\Logic\CLibrary;..\Logic\Display;..\HARDWARE\RTC;..\SYSTEM\usart;..\STM32F10x_FWLib\inc;..\HARDWARE\ESP8266;..\HARDWARE\USART;..\HARDWARE\Button</IncludePath>
+              <IncludePath>..\SYSTEM\delay;..\SYSTEM\sys;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\OLED;..\HARDWARE\SPI;..\HARDWARE\DHT11;..\Logic\CLibrary;..\Logic\Display;..\HARDWARE\RTC;..\SYSTEM\usart;..\STM32F10x_FWLib\inc;..\HARDWARE\ESP8266;..\HARDWARE\USART;..\HARDWARE\Button;..\HARDWARE\Timer</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -447,6 +447,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\Button\Button.c</FilePath>
             </File>
+            <File>
+              <FileName>Timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\Timer\Timer.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -531,6 +536,11 @@
               <FileName>stm32f10x_pwr.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\STM32F10x_FWLib\src\stm32f10x_pwr.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10x_FWLib\src\stm32f10x_tim.c</FilePath>
             </File>
           </Files>
         </Group>

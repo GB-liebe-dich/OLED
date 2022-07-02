@@ -14,6 +14,7 @@
 ..\obj\display.o: ..\STM32F10x_FWLib\inc\stm32f10x_pwr.h
 ..\obj\display.o: ..\STM32F10x_FWLib\inc\stm32f10x_rcc.h
 ..\obj\display.o: ..\STM32F10x_FWLib\inc\stm32f10x_rtc.h
+..\obj\display.o: ..\STM32F10x_FWLib\inc\stm32f10x_tim.h
 ..\obj\display.o: ..\STM32F10x_FWLib\inc\stm32f10x_usart.h
 ..\obj\display.o: ..\STM32F10x_FWLib\inc\misc.h
 ..\obj\display.o: ..\USER\gui.h

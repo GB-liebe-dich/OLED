@@ -18,20 +18,31 @@
 #include "Clibrary.h"
 
 /*=============================== 宏定义/重定义 ===============================*/
-#define BASIC_TIM_Period    (1000 - 1)
-#define BASIC_TIM_Prescaler (72 - 1)
+#define BASIC_TIM_Period    (100)
+#define BASIC_TIM_Prescaler (720 - 1)
 
 /*========================== 枚举体/联合体/结构体定义 ==========================*/
+/**
+ * @brief 基本时间标志
+ * @note  0xAA表示基本时间到
+ **/
+typedef struct _basictimeflg {
+    uint8 ms_one;   //1ms
+    uint8 ms_five;  //5ms
+    uint8 ms_ten;   //10ms
+    uint8 S_one;    //1S
+} BASICTIMEFLAG_Tydef;
 
 
 /*================================= 全局变量 =================================*/
-
+extern uint16 BasicTime;    //基本定时器，单位1ms加1
+extern BASICTIMEFLAG_Tydef BasicTimeFlg;   //基本时间标志
 
 /*================================= 私有函数 =================================*/
 
 
 /*================================= 接口函数 =================================*/
-
+extern void TIM3_Init(void);
 
 #endif
 /*================================= 文件结尾 =================================*/

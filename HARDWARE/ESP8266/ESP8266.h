@@ -20,10 +20,10 @@
 
 /*=============================== 宏定义/重定义 ===============================*/
 /* wifi参数 */
-#define MAX_USER        (9)         //WiFi用户名最大值
-#define MAX_PASSWORD    (11)        //WiFi密码最大值
-#define WIFI_SSID       "test"      //WIFI名称
-#define WIFI_PASSWORD   "QWE123321" //wifi密码
+#define MAX_USER        (20)         //WiFi用户名最大值
+#define MAX_PASSWORD    (20)        //WiFi密码最大值
+#define WIFI_SSID       "Hellow world"      //WIFI名称
+#define WIFI_PASSWORD   "gaobinying123.." //wifi密码
 #define WIFI_TCPIP      (uint8 *)"api.seniverse.com"    //TCPip
 #define WIFI_TCPPORT    (uint8 *)"80"                   //TCP端口
 /* ESP8266CMD */

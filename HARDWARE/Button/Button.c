@@ -88,7 +88,9 @@ void UserButtonInit(void)
         //========= 初始化非默认参数 =========//
         if ((i == USER_BUTTON_1) || (i == USER_BUTTON_2))
         {
-            user_button[i].EN_EXTI = 0xAA; //开启EC11外部中断使能
+            // user_button[i].EN_EXTI = 0xAA; //开启EC11外部中断使能
+            user_button[i].Double_Click_Time = 9999; //屏蔽双击
+            user_button[i].Long_Click_Time = 9999;   //屏蔽长按键
         }
     }
 }
@@ -283,8 +285,9 @@ void Buttontask(void)
     uint8 i;    //用于for循环
     uint8 tEC11Data;    //缓存EC11键值
     
+    /*
     //========= 按键事件处理 =========//
-    if ((KEY_EVENT > PENDING) || (EC11_A_EVENT >PENDING))
+    if ((KEY_EVENT > PENDING) || (EC11_A_EVENT > PENDING))
     {
         if (g_SetWifi_Cursor.state) //选择或设置状态光标指针才有效
         {
@@ -307,7 +310,6 @@ void Buttontask(void)
                   g_SetWifi_Cursor.state = 0x55;    //进入选择状态
                   g_SetWifi_Cursor.position = 0x01; //从1开始
               }
-              break;
           }break;
           case menu_interface:
           {
@@ -333,14 +335,15 @@ void Buttontask(void)
           {
               
           }break;
-        }
-    }
+          }
 
-    //========= 清除按键事件 =========//
-    for (i = 0; i < USER_BUTTON_MAX; i++)
-    {
-        user_button[i].Button_event = DEFAULT;
+          //========= 清除按键事件 =========//
+          for (i = 0; i < USER_BUTTON_MAX; i++)
+          {
+              user_button[i].Button_event = DEFAULT;
+          }
     }
+    */
 }
 
 /*================================= 接口函数 =================================*/
@@ -356,8 +359,10 @@ void Buttontask(void)
 void Button_Init(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
+#ifdef BUTTON_INTERRUPT
     EXTI_InitTypeDef EXTI_InitStructure;
     NVIC_InitTypeDef NVIC_InitStructure;
+#endif
 
     //========= 普通GPIO配置 =========//
     /* 使能对应端口时钟 */
