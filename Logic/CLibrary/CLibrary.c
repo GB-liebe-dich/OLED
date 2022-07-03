@@ -206,4 +206,61 @@ uint8 EngWeekGetNum(uint8 *pAimStr, uint8 tlength)
     return 0;
 }
 
+
+u16 HexToAsc(u8 *pHEX, u16 lenHEX, char *pASC)
+{
+	if((pHEX == NULL)||(pASC == NULL))
+	{
+		assert_param( FAIL );
+		return 0;
+	}
+	for(u16 i=0; i<lenHEX; i++)
+	{
+		u8 hex = pHEX[i] >> 4;      					//取十六进制数据高四位
+		if(hex <= 9)	*pASC++ = hex + '0';			//0~9
+		else			*pASC++ = hex - 10 + 'A';		//A~F
+		
+		hex = pHEX[i] & 0x0F;           				//取十六进制数据低四位
+		if(hex <= 9)	*pASC++ = hex + '0';			//0~9
+		else			*pASC++ = hex - 10 + 'A';		//A~F
+	}
+	return lenHEX<<1;									//返回转换后数组长度	
+}
+
+
+u16 HexToStr(u8 *pHEX, u16 lenHEX, char *pASC)
+{
+    if((pHEX == NULL)||(pASC == NULL))
+	{
+		assert_param( FAIL );
+		return 0;
+	}
+    u16 n = HexToAsc(pHEX, lenHEX, pASC);
+    pASC[n] = '\0';										//结尾符
+    return n;                                           //返回转换后数组长度
+}
+
+
+void uLongToByte(u32 uData, u8 *Byte, u8 DataType)
+{
+    U32STR_Def tTmp;
+    
+    tTmp.val = uData;
+    
+    if (SMALL_DATA == DataType)                         //小端数据
+    {
+        Byte[0] = tTmp.Data[0];
+        Byte[1] = tTmp.Data[1];
+        Byte[2] = tTmp.Data[2];
+        Byte[3] = tTmp.Data[3];
+    }
+    else                                                //大端数据
+    {
+        Byte[0] = tTmp.Data[3];
+        Byte[1] = tTmp.Data[2];
+        Byte[2] = tTmp.Data[1];
+        Byte[3] = tTmp.Data[0];
+    }
+}
+
 /*================================= 文件结尾 =================================*/

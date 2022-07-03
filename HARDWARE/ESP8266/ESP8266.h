@@ -20,8 +20,8 @@
 
 /*=============================== 宏定义/重定义 ===============================*/
 /* wifi参数 */
-#define MAX_USER        (20)         //WiFi用户名最大值
-#define MAX_PASSWORD    (20)        //WiFi密码最大值
+#define MAX_USER        (19)         //WiFi用户名最大值
+#define MAX_PASSWORD    (19)        //WiFi密码最大值
 #define WIFI_SSID       "Hellow world"      //WIFI名称
 #define WIFI_PASSWORD   "gaobinying123.." //wifi密码
 #define WIFI_TCPIP      (uint8 *)"api.seniverse.com"    //TCPip

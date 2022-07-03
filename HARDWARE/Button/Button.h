@@ -31,12 +31,12 @@
 #define SHAKE_TIME 1          //消抖时间
 #define DOUBLE_C_TIME 50      //双击有效间隔
 #define LONG_C_TIME 300       //长按有效时间
-#define DEFAULT_LOGIC_LEVEL 0 //默认逻辑电平
+#define DEFAULT_LOGIC_LEVEL 1 //默认逻辑电平
 #define KEY_PIN PBin(0)
 #define EC11_A_PIN PAin(1)
 #define EC11_B_PIN PAin(0)
 
-#define KEY_EVENT    (user_button[1].Button_event)
+#define KEY_EVENT    (user_button[0].Button_event)
 #define EC11_A_EVENT (user_button[1].Button_event)
 #define EC11_B_EVENT (user_button[2].Button_event)
 

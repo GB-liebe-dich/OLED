@@ -83,7 +83,7 @@ u8 DHT11_Read_Byte(void)
 //humi:湿度值(范围:20%~90%)
 //返回值：0,正常;1,读取失败
 u8 DHT11_Read_Data(u8 *temp,u8 *humi)    
-{        
+{
  	u8 buf[5];
 	u8 i;
 	DHT11_Rst();

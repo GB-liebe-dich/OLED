@@ -90,8 +90,8 @@ void UserButtonInit(void)
         if ((i == USER_BUTTON_1) || (i == USER_BUTTON_2))
         {
             // user_button[i].EN_EXTI = 0xAA; //开启EC11外部中断使能
-            user_button[i].Double_Click_Time = 9999; //屏蔽双击
-            user_button[i].Long_Click_Time = 9999;   //屏蔽长按键
+            user_button[i].Double_Click_Time = 0;  //屏蔽双击
+            user_button[i].Long_Click_Time = 9999; //屏蔽长按键
         }
     }
 }
@@ -248,24 +248,41 @@ uint32 GetButtonEvent(uint32 button_data)
  * @brief   获取EC11动作
  * @param   [In]
  * @param   [Out]
- * @return  
+ * @return
  * @version 1.0.0
  * @date    2022-06-10
- * @note    
+ * @note
  **/
 uint8 GetEC11Data(void)
 {
-    uint8 tDirection = 0;   //转动方向，0xAA表示正转，0x55表示反转，其他表示无转动
+    uint8 tDirection = 0; //转动方向，0xAA表示正转，0x55表示反转，其他表示无转动
+    static uint8 s_Turnflg;
 
-    if (EC11_A_EVENT == SINGLE_CLICK)
+    if ((0xAA == s_Turnflg) && (SINGLE_CLICK == EC11_B_EVENT))
     {
-        if (EC11_B_EVENT == SINGLE_CLICK) //正转
+        s_Turnflg = 0x00;
+
+        tDirection = 0xAA; //正转
+    }
+    else if ((0x55 == s_Turnflg) && (SINGLE_CLICK == EC11_A_EVENT))
+    {
+        s_Turnflg = 0x00;
+
+        tDirection = 0x55; //反转
+    }
+    else
+    {
+        if ((EC11_A_EVENT == SINGLE_CLICK) && (EC11_B_EVENT == PENDING))
         {
-            tDirection = 0xAA;
+            s_Turnflg = 0xAA;
         }
-        else //反转
+        else if ((EC11_A_EVENT == PENDING) && (EC11_B_EVENT == SINGLE_CLICK))
         {
-            tDirection = 0x55;
+            s_Turnflg = 0x55;
+        }
+        else
+        {
+            s_Turnflg = 0x00;
         }
     }
 
@@ -283,9 +300,12 @@ uint8 GetEC11Data(void)
  **/
 void Buttontask(void)
 {
-    uint8 i;    //用于for循环
-    uint8 tEC11Data;    //缓存EC11键值
+    uint8 i;         //用于for循环
+    uint8 tEC11Data; //缓存EC11键值
     
+/*  //测试用
+    uint8 tEC11;
+    tEC11 = GetEC11Data();
     if (KEY_EVENT == SINGLE_CLICK)
     {
         UartxSendStr(USART3, "SINGLE_CLICK");
@@ -295,75 +315,88 @@ void Buttontask(void)
     {
         UartxSendStr(USART3, "DOUBLE_CLICK");
     }
-    
+
     if (KEY_EVENT == LONG_CLICK)
     {
         UartxSendStr(USART3, "LONG_CLICK");
     }
-    
+
     if (EC11_A_EVENT == SINGLE_CLICK)
     {
         UartxSendStr(USART3, "A_SINGLE_CLICK");
     }
-    
-    
+    if (EC11_B_EVENT == SINGLE_CLICK)
+    {
+        UartxSendStr(USART3, "B_SINGLE_CLICK");
+    }
+
+    if (tEC11 == 0xAA)
+    {
+        UartxSendStr(USART3, "\r\nAAA\r\n");
+    }
+    if (tEC11 == 0x55)
+    {
+        UartxSendStr(USART3, "\r\nBBB\r\n");
+    }
+    */
+
     //========= 按键事件处理 =========//
-    // if ((KEY_EVENT > PENDING) || (EC11_A_EVENT > PENDING))
-    // {
-    //     if (g_SetWifi_Cursor.state) //选择或设置状态光标指针才有效
-    //     {
-    //         tEC11Data = GetEC11Data(); //获取EC11状态
+    if ((KEY_EVENT > PENDING) || (EC11_A_EVENT > PENDING))
+    {
+        if (g_SetWifi_Cursor.state) //选择或设置状态光标指针才有效
+        {
+            tEC11Data = GetEC11Data(); //获取EC11状态
 
-    //         if (tEC11Data)
-    //         {
-    //             (tEC11Data == 0xAA) ? g_SetWifi_Cursor.position++
-    //                                 : g_SetWifi_Cursor.position--;
-    //         }
-    //     }
+            if (tEC11Data)
+            {
+                (tEC11Data == 0xAA) ? g_SetWifi_Cursor.position++
+                                    : g_SetWifi_Cursor.position--;
+            }
+        }
 
-    //     switch (g_Display.Now_interface)
-    //     {
-    //       case main_interface:
-    //       {
-    //           if (KEY_EVENT == LONG_CLICK)
-    //           {
-    //               g_Display.Now_interface = menu_interface;
-    //               g_SetWifi_Cursor.state = 0x55;    //进入选择状态
-    //               g_SetWifi_Cursor.position = 0x01; //从1开始
-    //           }
-    //       }break;
-    //       case menu_interface:
-    //       {
-    //           if (KEY_EVENT == SINGLE_CLICK)
-    //           {
-    //               g_Display.Now_interface += g_SetWifi_Cursor.position;
-    //               g_SetWifi_Cursor.position = 0;
-    //           }
-    //           if (g_SetWifi_Cursor.position >= Max_interface)
-    //           {
-    //               g_SetWifi_Cursor.position = 0x01;
-    //           }
-    //       }break;
-    //       case WiFiSet_interface:
-    //       {
-              
-    //       }break;
-    //       case Update_interface:
-    //       {
-              
-    //       }break;
-    //       default:
-    //       {
-              
-    //       }break;
-    //       }
+        switch (g_Display.Now_interface)
+        {
+          case main_interface:
+          {
+              if (KEY_EVENT == LONG_CLICK)
+              {
+                  g_Display.Now_interface = menu_interface;
+                  g_SetWifi_Cursor.state = 0x55;    //进入选择状态
+                  g_SetWifi_Cursor.position = 0x01; //从1开始
+              }
+          }break;
+          case menu_interface:
+          {
+              if (KEY_EVENT == SINGLE_CLICK)
+              {
+                  g_Display.Now_interface += g_SetWifi_Cursor.position;
+                  g_SetWifi_Cursor.position = 0;
+              }
+              if (g_SetWifi_Cursor.position >= Max_interface)
+              {
+                  g_SetWifi_Cursor.position = 0x01;
+              }
+          }break;
+          case WiFiSet_interface:
+          {
+
+          }break;
+          case Update_interface:
+          {
+
+          }break;
+          default:
+          {
+
+          }break;
+          }
 
           //========= 清除按键事件 =========//
           for (i = 0; i < USER_BUTTON_MAX; i++)
           {
               user_button[i].Button_event = DEFAULT;
           }
-    // }
+    }
 }
 
 /*================================= 接口函数 =================================*/
