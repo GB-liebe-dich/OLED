@@ -76,7 +76,7 @@ void Dis_MainInterface(void)
         /* 清屏 */
         OLED_Clear(0);
     }
-    
+
     //========= 界面显示 =========//
     /* 显示图片 */
     main_bmp();
@@ -100,6 +100,49 @@ void Dis_MainInterface(void)
     DecToChar(humidity, 2, shidu);
     GUI_ShowString(105, 18, wendu, 8, 1);
     GUI_ShowString(105, 31, shidu, 8, 1);
+}
+
+/**
+ * @brief   显示菜单界面
+ * @param   [In]
+ * @param   [Out]
+ * @return
+ * @version 1.0.0
+ * @date    2022-07-04
+ * @note
+ **/
+void Dis_MenuInterFace(void)
+{
+    //========= 界面初始化 =========//
+    if (g_Display.Interface_State != 0xAA)
+    {
+        g_Display.Interface_State = 0xAA;
+        /* 清屏 */
+        OLED_Clear(0);
+    }
+
+    //========= 界面显示 =========//
+    switch (g_SetWifi_Cursor.position)
+    {
+    case 0x01:
+    {
+        menu_wifi();
+    }
+    break;
+    case 0x02:
+    {
+        menu_wifi1();
+    }
+    break;
+    case 0x03:
+    {
+    }
+    break;
+    default:
+    {
+    }
+    break;
+    }
 }
 
 /**

@@ -322,6 +322,15 @@ void main_bmp(void)
     }
 }
 
+void menu_wifi(void)
+{
+    GUI_DrawBMP(44,16,48,42, SetWifi, 1);
+}
+void menu_wifi1(void)
+{
+    GUI_DrawBMP(44,16,48,48, SetWifi1, 1);
+}
+
 /*****************************************************************************
  * @name       :void TEST_Menu1(void)
  * @date       :2018-08-27 

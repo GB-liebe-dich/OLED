@@ -45,20 +45,20 @@ int main(void)
     DHT11_Read_Data(&temperature, &humidity);
     Dis_MainInterface(); //显示主界面，等待wifi连接
 		OLED_Display();
-    // for (delayi = 0; delayi < 5; delayi++)
-    // {
-    //     delay_ms(1500);
-    //     if (!ESP8266_QueryWifi())
-    //     {
-    //         g_8266State.wifi_online = 0xAA;
-    //         ESP8266_Weather();
-    //         if (SUCCESS == ESP8266_GetTime())
-    //         {
-    //             g_8266State.Timing = 0xAA;
-    //         }
-    //         break;
-    //     }
-    // }
+    for (delayi = 0; delayi < 5; delayi++)
+    {
+        delay_ms(1500);
+        if (!ESP8266_QueryWifi())
+        {
+            g_8266State.wifi_online = 0xAA;
+            ESP8266_Weather();
+            if (SUCCESS == ESP8266_GetTime())
+            {
+                g_8266State.Timing = 0xAA;
+            }
+            break;
+        }
+    }
 
 /*  //测试用
     UartxSendStr(USART3, "test start");
@@ -94,13 +94,13 @@ int main(void)
             RTC_Get();                                //更新时间
             DHT11_Read_Data(&temperature, &humidity); //读取温湿度
 
-//            if (g_8266State.Timing != 0xAA) //校时
-//            {
-//                if (SUCCESS == ESP8266_GetTime())
-//                {
-//                    g_8266State.Timing = 0xAA;
-//                }
-//            }
+           if (g_8266State.Timing != 0xAA) //校时
+           {
+               if (SUCCESS == ESP8266_GetTime())
+               {
+                   g_8266State.Timing = 0xAA;
+               }
+           }
 
             //========= 显示处理 =========//
             /* 初始化界面数组 */
@@ -110,6 +110,7 @@ int main(void)
                 Dis_MainInterface();
                 break;
             case menu_interface:
+                Dis_MenuInterFace();
                 break;
             case WiFiSet_interface:
                 Dis_Wificonfig();

@@ -29,7 +29,7 @@ typedef enum _interface {
     main_interface = 0, //主界面
     menu_interface,     //菜单界面
     WiFiSet_interface,  //WiFi设置界面
-    Update_interface,    //更新参数界面
+    Update_interface,   //更新参数界面
     Max_interface
 } INTERFACE;
 
@@ -61,6 +61,7 @@ extern u8 humidity;
 /*================================= 接口函数 =================================*/
 void Dis_PowerOn(void); /* 开机动画 */
 void Dis_MainInterface(void);   /* 显示主界面 */
+void Dis_MenuInterFace(void);
 void Dis_Wificonfig(void);  /* 显示WIFI用户名和密码配置页面 */
 
 /*================================= 私有函数 =================================*/
