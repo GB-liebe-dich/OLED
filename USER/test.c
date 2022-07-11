@@ -324,11 +324,11 @@ void main_bmp(void)
 
 void menu_wifi(void)
 {
-    GUI_DrawBMP(44,16,48,42, SetWifi, 1);
+    GUI_DrawBMP(42,16,48,42, SetWifi, 1);
 }
-void menu_wifi1(void)
+void menu_Time(void)
 {
-    GUI_DrawBMP(44,16,48,48, SetWifi1, 1);
+    GUI_DrawBMP(42,16,48,48, Time, 1);
 }
 
 /*****************************************************************************

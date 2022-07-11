@@ -343,6 +343,7 @@ void Buttontask(void)
     //========= 按键事件处理 =========//
     if ((KEY_EVENT > PENDING) || (EC11_A_EVENT > PENDING) || (EC11_B_EVENT > PENDING))
     {
+        /* EC11 */
         if (g_SetWifi_Cursor.state) //选择或设置状态光标指针才有效
         {
             tEC11Data = GetEC11Data(); //获取EC11状态
@@ -350,15 +351,13 @@ void Buttontask(void)
             if (tEC11Data == 0xAA)
             {
                 g_SetWifi_Cursor.position++;
-                UartxSendStr(USART3, "A");
             }
             else if (0x55 == tEC11Data)
             {
                 g_SetWifi_Cursor.position--;
-                UartxSendStr(USART3, "BB");
             }
         }
-
+        /* Key */
         switch (g_Display.Now_interface)
         {
           case main_interface:
@@ -378,9 +377,10 @@ void Buttontask(void)
                   g_SetWifi_Cursor.state = 0x00;    //进入初始化状态
                   g_SetWifi_Cursor.position = 0x00; //从0开始
               }
-              if (KEY_EVENT == SINGLE_CLICK)
+              else if (KEY_EVENT == SINGLE_CLICK)
               {
                   g_Display.Now_interface += g_SetWifi_Cursor.position;
+                  g_SetWifi_Cursor.state = 0x00;    //进入选择状态
                   g_SetWifi_Cursor.position = 0;
               }
               if (g_SetWifi_Cursor.position >= Max_interface)
@@ -390,11 +390,23 @@ void Buttontask(void)
           }break;
           case WiFiSet_interface:
           {
-              if (KEY_EVENT == LONG_CLICK)
+              if (KEY_EVENT == SINGLE_CLICK)
+              {
+                  ;
+              }
+              else if (KEY_EVENT == DOUBLE_CLICK)
+              {
+                  g_SetWifi_Cursor.state = 0x55;    //进入选择状态
+              }
+              else
               {
                   g_Display.Now_interface = menu_interface;
                   g_SetWifi_Cursor.state = 0x55;    //进入选择状态
                   g_SetWifi_Cursor.position = 0x01; //从1开始
+              }
+              if (g_SetWifi_Cursor.position > 0x04)
+              {
+                  g_SetWifi_Cursor.position = 0x00;
               }
           }break;
           case Update_interface:
@@ -405,16 +417,16 @@ void Buttontask(void)
           {
 
           }break;
-          }
+        }
 
-          //========= 清除按键事件 =========//
-          for (i = 0; i < USER_BUTTON_MAX; i++)
-          {
-              user_button[i].Button_event = DEFAULT;
-          }
+        //========= 清除按键事件 =========//
+        for (i = 0; i < USER_BUTTON_MAX; i++)
+        {
+            user_button[i].Button_event = DEFAULT;
+        }
 
-          //========= 界面初始化 =========//
-          g_Display.Interface_State = 0x00; //初始化界面
+        //========= 界面初始化 =========//
+        g_Display.Interface_State = 0x00; //初始化界面
     }
 }
 

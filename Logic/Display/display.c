@@ -131,7 +131,7 @@ void Dis_MenuInterFace(void)
     break;
     case 0x02:
     {
-        menu_wifi1();
+        menu_Time();
     }
     break;
     case 0x03:
