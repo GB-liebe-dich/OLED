@@ -50,6 +50,7 @@ typedef struct _cursor {
     uint8 state;    /* 选择状态，0：隐藏，0x55：选择，0xAA：设置 */
     uint8 position;   /* 光标目前所在位置 */
     uint8 twinkle;   /* 光标闪烁标志 */
+    uint8 depth;    //光标深度、层次
 } CURSOR;
 
 /*================================= 全局变量 =================================*/
