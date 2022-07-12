@@ -27,11 +27,20 @@ Project File Date:  07/01/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Program Files\Keil_v5\ARM\ARMCC\Bin'
 Build target 'QD-OLED'
-compiling test.c...
+compiling display.c...
+..\Logic\Display\display.c(68): warning:  #177-D: variable "shi"  was declared but never referenced
+      u8 shi[3] = {0};
+..\Logic\Display\display.c(69): warning:  #177-D: variable "fen"  was declared but never referenced
+      u8 fen[3] = {0};
+..\Logic\Display\display.c(70): warning:  #177-D: variable "miao"  was declared but never referenced
+      u8 miao[3] = {0};
+..\Logic\Display\display.c(134): warning:  #223-D: function "menu_Time" declared implicitly
+          menu_Time();
+..\Logic\Display\display.c: 4 warnings, 0 errors
 linking...
-Program Size: Code=27404 RO-data=5688 RW-data=6000 ZI-data=3528  
+Program Size: Code=27440 RO-data=5692 RW-data=6004 ZI-data=3524  
 FromELF: creating hex file...
-"..\OBJ\TEST_OLED.axf" - 0 Error(s), 0 Warning(s).
+"..\OBJ\TEST_OLED.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -54,7 +63,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.3.0
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

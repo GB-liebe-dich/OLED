@@ -167,16 +167,18 @@ void Dis_Wificonfig(void)
         OLED_Clear(0); /* 清屏 */
 
         /* 显示固定部分 */
-        GUI_ShowCHinese(0, 0, 16, "名称：", 1);
-        GUI_ShowCHinese(0, 16, 16, "密码：", 1);
-        GUI_ShowString(0, 32, "T: ", 16, 1);
-        GUI_ShowString(0, 48, "Port: ", 16, 1);
+        // GUI_ShowCHinese(0, 0, 16, "名称：", 1);
+        // GUI_ShowCHinese(0, 16, 16, "密码：", 1);
+        GUI_ShowString(0, 0, "SSID: ", 8, 1);
+        GUI_ShowString(0, 16, "SKEY: ", 8, 1);
+        GUI_ShowString(0, 32, "Http: ", 8, 1);
+        GUI_ShowString(0, 48, "Port: ", 8, 1);
 
         /* 显示参数部分 */
-        GUI_ShowString(40, 0, g_Wifi.ssid, 16, 1);
-        GUI_ShowString(40, 16, g_Wifi.password, 16, 1);
-        GUI_ShowString(24, 32, g_Wifi.tcp_address, 16, 1);
-        GUI_ShowString(48, 48, g_Wifi.tcp_port, 16, 1);
+        GUI_ShowString(30, 0, g_Wifi.ssid, 8, 1);
+        GUI_ShowString(30, 16, g_Wifi.password, 8, 1);
+        GUI_ShowString(30, 32, g_Wifi.tcp_address, 8, 1);
+        GUI_ShowString(30, 48, g_Wifi.tcp_port, 8, 1);
     }
 
     /* 设置显示 */
