@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\TEST_OLED.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\TEST_OLED.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Jul 12 23:22:51 2022
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Jul 14 12:49:13 2022
 <BR><P>
 <H3>Maximum Stack Usage =        272 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -242,7 +242,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TEST_Menu2
 </UL>
 
-<P><STRONG><a name="[4a]"></a>main</STRONG> (Thumb, 256 bytes, Stack size 0 bytes, main.o(.text))
+<P><STRONG><a name="[4a]"></a>main</STRONG> (Thumb, 270 bytes, Stack size 0 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 272 + Unknown Stack Size
 <LI>Call Chain = main &rArr; Dis_MainInterface &rArr; DecToChar &rArr; GetDecDigit &rArr; log10 &rArr; log &rArr; __kernel_poly &rArr; __aeabi_dmul
 </UL>
@@ -251,7 +251,7 @@ Global Symbols
 <LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART3_Init
 <LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_Init
 <LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Init
-<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Get
+<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Get
 <LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_Init
 <LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_Display
 <LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_Clear
@@ -260,9 +260,9 @@ Global Symbols
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ESP8266_Weather
 <LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ESP8266_QueryWifi
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ESP8266_GetTime
-<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_Wificonfig
+<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_Wificonfig
 <LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_PowerOn
-<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_MenuInterFace
+<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_MenuInterFace
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_MainInterface
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DHT11_Read_Data
 <LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DHT11_Init
@@ -390,7 +390,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_DrawBMP
 </UL>
-<BR>[Called By]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_MenuInterFace
+<BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_MenuInterFace
 </UL>
 
 <P><STRONG><a name="[7e]"></a>menu_Time</STRONG> (Thumb, 24 bytes, Stack size 16 bytes, test.o(.text))
@@ -398,7 +398,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_DrawBMP
 </UL>
-<BR>[Called By]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_MenuInterFace
+<BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_MenuInterFace
 </UL>
 
 <P><STRONG><a name="[7f]"></a>TEST_Menu1</STRONG> (Thumb, 858 bytes, Stack size 16 bytes, test.o(.text), UNUSED)
@@ -518,7 +518,7 @@ Global Symbols
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TEST_English
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Test_Color
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TEST_MainPage
-<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_Wificonfig
+<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_Wificonfig
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_MainInterface
 </UL>
 
@@ -643,8 +643,8 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TEST_Chinese
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TEST_Number_Character
-<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_Wificonfig
-<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_MenuInterFace
+<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_Wificonfig
+<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_MenuInterFace
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dis_MainInterface
 <LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -749,16 +749,16 @@ Global Symbols
 <P><STRONG><a name="[a4]"></a>RTC_Get_Week</STRONG> (Thumb, 116 bytes, Stack size 20 bytes, rtc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = RTC_Get_Week
 </UL>
-<BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Get
+<BR>[Called By]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Get
 </UL>
 
 <P><STRONG><a name="[a3]"></a>Is_Leap_Year</STRONG> (Thumb, 58 bytes, Stack size 0 bytes, rtc.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Alarm_Set
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Set
-<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Get
+<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Get
 </UL>
 
-<P><STRONG><a name="[62]"></a>RTC_Get</STRONG> (Thumb, 240 bytes, Stack size 16 bytes, rtc.o(.text))
+<P><STRONG><a name="[64]"></a>RTC_Get</STRONG> (Thumb, 240 bytes, Stack size 16 bytes, rtc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = RTC_Get &rArr; RTC_Get_Week
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_GetCounter
@@ -801,7 +801,7 @@ Global Symbols
 <LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BKP_DeInit
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Set
 <LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
-<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Get
+<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Get
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -933,7 +933,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HandleButtonEvent
 </UL>
 
-<P><STRONG><a name="[d2]"></a>GetButtonEvent</STRONG> (Thumb, 766 bytes, Stack size 12 bytes, button.o(.text))
+<P><STRONG><a name="[d2]"></a>GetButtonEvent</STRONG> (Thumb, 754 bytes, Stack size 12 bytes, button.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = GetButtonEvent
 </UL>
 <BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HandleButtonEvent
@@ -983,7 +983,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[2a]"></a>TIM3_IRQHandler</STRONG> (Thumb, 78 bytes, Stack size 8 bytes, timer.o(.text))
+<P><STRONG><a name="[2a]"></a>TIM3_IRQHandler</STRONG> (Thumb, 100 bytes, Stack size 8 bytes, timer.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = TIM3_IRQHandler &rArr; TIM_GetITStatus
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
@@ -1381,7 +1381,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[a2]"></a>RTC_GetCounter</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f10x_rtc.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Get
+<BR><BR>[Called By]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Get
 </UL>
 
 <P><STRONG><a name="[a8]"></a>RTC_SetCounter</STRONG> (Thumb, 26 bytes, Stack size 4 bytes, stm32f10x_rtc.o(.text))
@@ -1898,7 +1898,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[63]"></a>Dis_MenuInterFace</STRONG> (Thumb, 60 bytes, Stack size 8 bytes, display.o(.text))
+<P><STRONG><a name="[62]"></a>Dis_MenuInterFace</STRONG> (Thumb, 60 bytes, Stack size 8 bytes, display.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 84 + Unknown Stack Size
 <LI>Call Chain = Dis_MenuInterFace &rArr; menu_Time &rArr; GUI_DrawBMP &rArr; OLED_Set_Pixel
 </UL>
@@ -1909,7 +1909,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[64]"></a>Dis_Wificonfig</STRONG> (Thumb, 258 bytes, Stack size 16 bytes, display.o(.text))
+<P><STRONG><a name="[63]"></a>Dis_Wificonfig</STRONG> (Thumb, 258 bytes, Stack size 16 bytes, display.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 124 + Unknown Stack Size
 <LI>Call Chain = Dis_Wificonfig &rArr; GUI_ShowString &rArr; GUI_ShowChar &rArr; OLED_Set_Pixel
 </UL>

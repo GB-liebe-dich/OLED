@@ -30,6 +30,7 @@ typedef struct _basictimeflg {
     uint8 ms_one;   //1ms
     uint8 ms_five;  //5ms
     uint8 ms_ten;   //10ms
+    uint8 ms_hundred;//100ms
     uint8 S_one;    //1S
 } BASICTIMEFLAG_Tydef;
 

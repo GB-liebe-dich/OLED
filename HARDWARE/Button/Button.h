@@ -29,7 +29,7 @@
 
 #define Scan_interval 0       //扫描间隔，单位ms
 #define SHAKE_TIME 1          //消抖时间
-#define DOUBLE_C_TIME 50      //双击有效间隔
+#define DOUBLE_C_TIME 30      //双击有效间隔,300ms
 #define LONG_C_TIME 150       //长按有效时间
 #define DEFAULT_LOGIC_LEVEL 1 //默认逻辑电平
 #define KEY_PIN PBin(0)

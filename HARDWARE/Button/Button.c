@@ -200,7 +200,6 @@ uint32 GetButtonEvent(uint32 button_data)
             }
             else
             {
-                user_button[i].scan_cnt = 0;
                 user_button[i].click_cnt++;
                 user_button[i].Button_state = PRESS_BOUNCE;
             }
@@ -509,7 +508,12 @@ void HandleButtonEvent(void)
 {
     uint32 tButtonData; //缓存按键键值
 
+    uint8 test[10];
+
     tButtonData = GetButtonData();
+
+    // DecToChar(KEY_EVENT, 2, test);
+    // UartxSendStr(USART3, test);
 
     if (GetButtonEvent(tButtonData)) //有按键按下
     {

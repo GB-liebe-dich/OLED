@@ -85,6 +85,10 @@ void TIM3_IRQHandler(void) // TIM3 ÖÐ¶Ï
         {
             BasicTimeFlg.ms_ten = 0xAA;
         }
+        if ((BasicTime % 100) == 0)
+        {
+            BasicTimeFlg.ms_hundred = 0xAA;
+        }
         if ((BasicTime % 1000) == 0)
         {
             BasicTimeFlg.S_one = 0xAA;

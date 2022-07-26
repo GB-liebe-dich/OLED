@@ -85,22 +85,10 @@ int main(void)
 
             HandleButtonEvent(); //按键事件处理
         }
-
-        /* 1秒事件 */
-        if (BasicTimeFlg.S_one == 0xAA)
+        /* 100ms事件 */
+        if (BasicTimeFlg.ms_hundred == 0xAA)
         {
-            BasicTimeFlg.S_one = 0x00;
-
-            RTC_Get();                                //更新时间
-            DHT11_Read_Data(&temperature, &humidity); //读取温湿度
-
-           if (g_8266State.Timing != 0xAA) //校时
-           {
-               if (SUCCESS == ESP8266_GetTime())
-               {
-                   g_8266State.Timing = 0xAA;
-               }
-           }
+            BasicTimeFlg.ms_hundred = 0x00;
 
             //========= 显示处理 =========//
             /* 初始化界面数组 */
@@ -122,6 +110,22 @@ int main(void)
             }
             /* 更新显示 */
             OLED_Display();
+        }
+        /* 1秒事件 */
+        if (BasicTimeFlg.S_one == 0xAA)
+        {
+            BasicTimeFlg.S_one = 0x00;
+
+            RTC_Get();                                //更新时间
+            DHT11_Read_Data(&temperature, &humidity); //读取温湿度
+
+           if (g_8266State.Timing != 0xAA) //校时
+           {
+               if (SUCCESS == ESP8266_GetTime())
+               {
+                   g_8266State.Timing = 0xAA;
+               }
+           }
         }
 
         __WFI(); //进入睡眠模式，等待中断
