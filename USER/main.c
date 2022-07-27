@@ -166,7 +166,6 @@ int main(void)
     //         g_Display.Interface_State = 0;
     //     }
     // }
-
     // delay_ms(100);
     // t++;
 }
