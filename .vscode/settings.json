@@ -12,7 +12,7 @@
         "RTC.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled",
-    "C_Cpp.intelliSenseEngineFallback": "Disabled", //��Ҫ���ӵ�
-    "C_Cpp.intelliSenseEngine": "Tag Parser",  //  ��Ҫ���ӵ�
-    //"C_Cpp.intelliSenseCacheSize": 1024 //���ռ���ڴ��
+    "C_Cpp.intelliSenseEngineFallback": "Disabled", 
+    "C_Cpp.intelliSenseEngine": "Tag Parser",  //解决“显示未定义但能跳转”问题
+    //"C_Cpp.intelliSenseCacheSize": 1024       //降低内存占用
 }
