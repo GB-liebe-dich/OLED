@@ -12,7 +12,7 @@
         "RTC.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled",
-    "C_Cpp.intelliSenseEngineFallback": "Disabled", //需要添加的
-    "C_Cpp.intelliSenseEngine": "Tag Parser",  //  需要添加的
-    "C_Cpp.intelliSenseCacheSize": 1024 //解决占用内存大
+    "C_Cpp.intelliSenseEngineFallback": "Disabled", //锟斤拷要锟斤拷锟接碉拷
+    "C_Cpp.intelliSenseEngine": "Tag Parser",  //  锟斤拷要锟斤拷锟接碉拷
+    //"C_Cpp.intelliSenseCacheSize": 1024 //锟斤拷锟秸硷拷锟斤拷诖锟斤拷
 }
