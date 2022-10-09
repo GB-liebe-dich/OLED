@@ -11,5 +11,8 @@
         "test.h": "c",
         "RTC.C": "cpp"
     },
-    "C_Cpp.errorSquiggles": "Enabled"
+    "C_Cpp.errorSquiggles": "Enabled",
+    "C_Cpp.intelliSenseEngineFallback": "Disabled", //需要添加的
+    "C_Cpp.intelliSenseEngine": "Tag Parser",  //  需要添加的
+    "C_Cpp.intelliSenseCacheSize": 1024 //解决占用内存大
 }
